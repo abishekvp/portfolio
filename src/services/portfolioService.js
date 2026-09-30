@@ -24,12 +24,8 @@ const SDK_CACHE_KEY = 'pm_portfolio_cache_v2' + (API_KEY ? '_' + API_KEY.slice(-
 
 const JOB_TYPE_LABELS = { full_time: 'Full Time', part_time: 'Part Time', internship: 'Internship', freelance: 'Freelance', contract: 'Contract' };
 
-// Contact types this theme shows as social buttons, and its default icons.
+// Contact types this theme shows as social buttons.
 const SOCIAL_TYPES = new Set(['linkedin', 'github', 'twitter', 'instagram', 'youtube', 'medium', 'dribbble', 'behance', 'stackoverflow', 'leetcode', 'telegram', 'website']);
-const TYPE_ICONS = {
-  email: '📧', phone: '📱', whatsapp: '💬', website: '🌐', linkedin: '💼', github: '💻', twitter: '🐦', instagram: '📷',
-  youtube: '▶️', medium: '✍️', dribbble: '🏀', behance: '🎨', stackoverflow: '📚', leetcode: '🧩', telegram: '✈️', location: '📍',
-};
 
 /** Theme content and offline fallback: section headers, badges and copy are part of this design. */
 function fromLocal() {
@@ -94,7 +90,7 @@ function fromApi(d) {
   const contacts = (d.contacts || []).map((ct) => ({
     type: ct.type,
     name: ct.label,
-    icon: ct.icon || TYPE_ICONS[ct.type] || '🔗',
+    icon: ct.icon || '',
     value: ct.value || ct.label,
     link: ct.link,
   }));

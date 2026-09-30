@@ -101,7 +101,7 @@
                 :target="method.name !== 'Email' && method.name !== 'Phone' ? '_blank' : undefined"
                 :rel="method.name !== 'Email' && method.name !== 'Phone' ? 'noopener' : undefined"
               >
-                <div class="method-icon-circle">{{ method.icon }}</div>
+                <div v-if="method.icon" class="method-icon-circle">{{ method.icon }}</div>
                 <div class="method-text">
                   <span class="method-name font-mono">{{ method.name }}</span>
                   <span class="method-value">{{ method.value }}</span>
