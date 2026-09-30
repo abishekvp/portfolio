@@ -12,7 +12,7 @@
       <div class="achievements-grid">
         <div v-for="(item, index) in data.items" :key="index" class="achievement-card glass-card">
           <img v-if="item.image" :src="item.image" :alt="item.title" class="achievement-image" loading="lazy" />
-          <div v-else class="achievement-icon">{{ item.icon || '🏆' }}</div>
+          <div v-else-if="item.icon" class="achievement-icon">{{ item.icon }}</div>
           <div class="achievement-content">
             <h3>{{ item.title }}</h3>
             <p v-if="item.issuer || item.date" class="achievement-meta">

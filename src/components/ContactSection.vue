@@ -132,7 +132,7 @@
       </div>
 
       <!-- Footer -->
-      <footer class="portfolio-footer">
+      <!-- <footer class="portfolio-footer">
         <div class="footer-content">
           <div class="footer-meta font-mono">
             <span class="pulse-dot"></span>
@@ -142,7 +142,7 @@
             &copy; {{ new Date().getFullYear() }} {{ profile.name || 'Abishek VP' }}. {{ contactData.footerText }}
           </p>
         </div>
-      </footer>
+      </footer> -->
     </div>
   </section>
 </template>
