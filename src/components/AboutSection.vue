@@ -52,20 +52,12 @@
             </p>
           </div>
 
-          <!-- SIH Winner & Credential Highlights -->
-          <div class="about-highlights-grid">
-            <div
-              v-for="(highlight, index) in aboutData.highlights"
-              :key="index"
-              class="highlight-card glass"
-            >
-              <div class="highlight-icon">{{ highlight.icon }}</div>
-              <div class="highlight-info">
-                <h4>{{ highlight.title }}</h4>
-                <p>{{ highlight.description }}</p>
-              </div>
+          <dl v-if="aboutData.facts && aboutData.facts.length" class="about-facts">
+            <div v-for="fact in aboutData.facts" :key="fact.label" class="fact">
+              <dt>{{ fact.label }}</dt>
+              <dd>{{ fact.value }}</dd>
             </div>
-          </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -154,6 +146,10 @@ export default {
   font-weight: 700;
 }
 
+.competency-name {
+  margin-right: 0.35em;
+}
+
 .competency-text {
   color: var(--color-text-secondary);
 }
@@ -190,58 +186,57 @@ export default {
   margin-bottom: 1.5rem;
 }
 
-/* Highlights Grid */
-.about-highlights-grid {
+/* Facts row */
+.about-facts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.25rem;
 }
 
-.highlight-card {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem;
-  border-radius: var(--radius-md);
-  background: rgba(10, 15, 28, 0.6);
-  border: 1px solid var(--glass-border);
-  transition: transform var(--transition-fast);
+.fact {
+  padding: 0 1rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.highlight-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--glass-border-hover);
+.fact:first-child {
+  padding-left: 0;
+  border-left: none;
 }
 
-.highlight-icon {
-  font-size: 1.6rem;
-}
-
-.highlight-info h4 {
-  font-size: 0.92rem;
-  margin-bottom: 0.15rem;
-  color: var(--color-text-primary);
-}
-
-.highlight-info p {
-  font-size: 0.78rem;
+.fact dt {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
-  line-height: 1.3;
+  margin-bottom: 0.3rem;
+}
+
+.fact dd {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
 }
 
 @media (max-width: 1024px) {
   .about-content {
     grid-template-columns: 1fr;
   }
-
-  .about-highlights-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 @media (max-width: 640px) {
-  .about-highlights-grid {
+  .about-facts {
     grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .fact {
+    padding: 0;
+    border-left: none;
   }
 }
 </style>

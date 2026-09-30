@@ -1,45 +1,28 @@
 {
   "about": {
     "sectionTitle": "About <span class=\"gradient-text\">Me</span>",
-    "sectionSubtitle": "Professional Summary",
+    "sectionSubtitle": "How I think about building software",
     "whatIDo": {
       "title": "Core Expertise",
       "items": [
-        "Backend Architecture: Designing high-throughput, secure, and resilient enterprise applications.",
-        "Enterprise Integrations: Seamlessly connecting and integrating extensive DevOps toolchains.",
-        "Identity Providers: Implementing and managing Identity Provider (IdP) integrations.",
-        "Automated Tooling: Scripting automations and streamlining workflows with Playwright, BeautifulSoup4, and Selenium, alongside DevOps tools such as Ansible, Jenkins, Terraform, Chef, and Puppet."
+        "Identity & Access: Privileged access, Just-In-Time approvals and self-service password reset across Active Directory, Entra ID and Google Workspace.",
+        "Secrets in Delivery Pipelines: Published Terraform, Jenkins, Ansible, Chef and Puppet plugins that let pipelines use secrets without storing them.",
+        "Backend Architecture: APIs and services designed for high throughput, clear failure handling and auditability.",
+        "Product Engineering: Taking products from idea to production and running them: data model, UI, deployment and support."
       ]
     },
     "bio": {
       "title": "Software Engineer",
       "paragraphs": [
-        "Software Engineer specializing in the architecture and development of robust enterprise security solutions, secure backend systems, and comprehensive DevOps integrations.",
-        "Over 4 years of experience driving backend development, security engineering, and cross-platform solutions.",
-        "Proven track record of building secure credential automation pipelines, enhancing password vault workflows, and delivering highly scalable engineering platforms at Securden."
+        "I design and build enterprise security software: the systems that decide who can reach which credential, when, and with whose approval. At Securden that means privileged access workflows, password self-service across multiple directories, and integrations that bring secrets management into CI/CD.",
+        "I care about software that holds up in production: clear architecture, careful failure handling and interfaces people can use without a manual. I hold my own products to the same standard, from a portfolio CMS to a zero-knowledge credential manager.",
+        "I started building software for clients in 2020 and still make time for students, as a hackathon jury member and guest lecturer."
       ]
-    },
-    "highlights": [
-      {
-        "icon": "🛡️",
-        "title": "Security Engineering",
-        "description": "Platform Integrations & DevOps Integration"
-      },
-      {
-        "icon": "🏆",
-        "title": "Achievement",
-        "description": "SIH 2022 Winner"
-      },
-      {
-        "icon": "🎓",
-        "title": "Mentorship",
-        "description": "Peer Mentorship & Jury Member"
-      }
-    ]
+    }
   },
   "skills": {
-    "sectionTitle": "Core <span class=\"gradient-text\">Competencies</span>",
-    "sectionSubtitle": "Technologies I work with",
+    "sectionTitle": "Technical <span class=\"gradient-text\">Stack</span>",
+    "sectionSubtitle": "What I build with",
     "categories": [
       {
         "name": "Backend & Platform",
@@ -123,8 +106,8 @@
     ]
   },
   "experience": {
-    "sectionTitle": "Work <span class=\"gradient-text\">Experience</span>",
-    "sectionSubtitle": "My professional journey",
+    "sectionTitle": "Professional <span class=\"gradient-text\">Journey</span>",
+    "sectionSubtitle": "Teams I have built software with",
     "jobs": [
       {
         "title": "Software Engineer",
@@ -138,7 +121,9 @@
           "Developed secure architectural integrations for major identity providers, including Azure AD, Google Workspace, and Active Directory, ensuring seamless and safe data synchronization.",
           "Built and maintained custom infrastructure plugins for Terraform, Jenkins, Ansible, Chef, and Puppet to enable secure CRUD operations on secrets within CI/CD pipelines.",
           "Enhanced secure browser extension, creating encrypted and user-friendly credential autofill ecosystem."
-        ]
+        ],
+        "is_current": true,
+        "jobType": "full_time"
       },
       {
         "title": "Software Engineer",
@@ -151,7 +136,9 @@
           "Designed and implemented backend operational workflows, delivering production-ready features for a high-traffic SaaS platform and a Student Management System.",
           "Spearheaded the rebuilding of legacy software and websites, with minimal resources to significantly improve overall system efficiency and modernizing the UI/UX.",
           "Architected and single-handedly developed a custom internal project management tool to streamline organizational workflows, task tracking, and team collaboration."
-        ]
+        ],
+        "is_current": false,
+        "jobType": "part_time"
       },
       {
         "title": "Software Engineer",
@@ -163,59 +150,21 @@
           "Developed full-stack application modules using Python, Django, JavaScript, and SQL, driving features from market research to production deployment.",
           "Delivered robust, production-ready backend features for consumer-facing web applications.",
           "Rebuilt and modernized brand software interfaces, improving user experience and application performance."
-        ]
+        ],
+        "is_current": false,
+        "jobType": "part_time"
       }
     ]
   },
   "projects": {
-    "sectionTitle": "Featured <span class=\"gradient-text\">Projects</span>",
-    "sectionSubtitle": "Some of my recent work",
-    "items": [
-      {
-        "id": 1,
-        "title": "GrantBase.gov.in – SIH Winner",
-        "description": "Built a government research grant intelligence platform that fetches real-time grant data from multiple portals. Engineered the backend to provide domain-based recommendations and automated alerts for researchers.",
-        "tags": [
-          "Django",
-          "BS4",
-          "GitHub"
-        ],
-        "demo": "",
-        "github": "https://github.com/abishekvp/SIH_DR715"
-      },
-      {
-        "id": 2,
-        "title": "Web Automation for Academic Data Entry",
-        "description": "Developed an automation platform to parse Excel data and automatically populate student records into the OASIS college portal, completely eliminating manual data entry tasks for administrative staff.",
-        "tags": [
-          "Django",
-          "Selenium",
-          "BS4",
-          "Pandas",
-          "GitHub"
-        ],
-        "demo": "",
-        "github": "https://github.com/abishekvp/Web-Automation-Streamlining-OASIS-Web-Portal"
-      },
-      {
-        "id": 3,
-        "title": "LEGALTECH – Software Implementation in Law firms",
-        "description": "Engineered a platform bridging legal professionals and professionals. Built backend features allowing lawyers to manage case records securely and enabling users to find advocates based on historical case data.",
-        "tags": [
-          "Django",
-          "Selenium",
-          "SQL",
-          "GitHub"
-        ],
-        "github": "https://github.com/abishekvp/legaltech"
-      }
-    ]
+    "sectionTitle": "Products I <span class=\"gradient-text\">Build &amp; Run</span>",
+    "sectionSubtitle": "Live software I designed, built and operate end to end"
   },
   "contact": {
-    "sectionTitle": "Get In <span class=\"gradient-text\">Touch</span>",
-    "sectionSubtitle": "Let's work together",
-    "intro": "If you'd like to collaborate, discuss opportunities, or build robust and secure software solutions — feel free to reach out.",
-    "roles": "I'm open to roles in Platform Engineering, Security Engineering, Identity provider integrations, DevOps tools integration, and Product Engineering.",
+    "sectionTitle": "Let&rsquo;s <span class=\"gradient-text\">Talk</span>",
+    "sectionSubtitle": "Products, platforms and security architecture",
+    "intro": "Building a product, scaling a platform or securing one?",
+    "roles": "I am always glad to talk through architecture, identity and access design, or what it takes to get a product from idea to production.",
     "methods": [
       {
         "name": "Email",

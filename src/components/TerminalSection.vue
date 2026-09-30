@@ -7,7 +7,7 @@
         </div>
         <h2>Developer <span class="gradient-text">Terminal</span></h2>
         <p class="text-secondary">
-          Execute commands directly to inspect platform architecture, security benchmarks, or download credentials.
+          Prefer the command line? Explore my work with a few commands.
         </p>
       </div>
 

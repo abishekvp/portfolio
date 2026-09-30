@@ -11,10 +11,12 @@
  *   3. falls back to the bundled portfolio.json when the admin API is unreachable.
  * Theme texts (hero copy, badges, section headers) stay in this codebase; any of them can be
  * overridden from the admin's "Custom content" (read here with pick(custom, group, key, default)).
+ * Products, academics and events have no admin collection yet and come from data/showcase.js.
  */
 import { reactive } from 'vue';
 import localData from '../data/portfolio.json';
 import * as defaults from '../data/defaults.js';
+import * as showcase from '../data/showcase.js';
 
 // The SDK keeps one cache per API key (same name as in portfolio_manager.js).
 const API_KEY = (import.meta.env.VITE_PORTFOLIO_KEY || '').trim();
@@ -38,19 +40,32 @@ function fromLocal() {
     resumeUrl: '/resume.pdf',
     resumeFilename: 'Abishek_VP_Resume.pdf',
     hero: { ...defaults.hero },
-    about: { ...localData.about, badge: '// 02. SYSTEM_SPECIFICATION', roleBadge: 'ROLE: SENIOR_SOFTWARE_ENGINEER', visible: true },
-    achievements: { ...defaults.achievements, visible: true },
-    skills: { ...localData.skills, badge: '// 03. CAPABILITIES_MATRIX', visible: true },
-    projects: { ...localData.projects, badge: '// 04. ARCHITECTURAL_BUILDS', visible: true },
-    experience: { ...localData.experience, badge: '// 05. CAREER_TRAJECTORY', visible: true },
-    education: { badge: '', sectionTitle: 'Education', sectionSubtitle: '', items: [], visible: false },
+    about: { ...localData.about, badge: '// 01. PROFILE', roleBadge: 'ROLE: SOFTWARE_ENGINEER', facts: defaults.aboutFacts, visible: true },
+    experience: { ...localData.experience, badge: '// 02. CAREER', visible: true },
+    projects: { ...localData.projects, badge: '// 03. PRODUCTS', items: showcase.products, visible: true },
+    skills: { ...localData.skills, badge: '// 04. STACK', visible: true },
+    education: {
+      badge: '// 05. EDUCATION',
+      sectionTitle: 'Education &amp; <span class="gradient-text">Academics</span>',
+      sectionSubtitle: 'Internships, projects and leadership from my college years',
+      degrees: [showcase.degree],
+      groups: showcase.academics,
+      visible: true,
+    },
+    events: {
+      badge: '// 06. SPEAKING',
+      sectionTitle: 'Talks &amp; <span class="gradient-text">Events</span>',
+      sectionSubtitle: 'Guest lectures and hackathon juries at engineering colleges',
+      items: showcase.events,
+      visible: true,
+    },
     testimonials: { ...defaults.testimonials, visible: true },
     contact: {
       ...localData.contact,
-      badge: '// 07. COMMUNICATION_CHANNELS',
-      formHeading: 'Send a Direct Transmission',
-      formSubheading: 'Whether you want to discuss platform engineering, security architectures, mentorship, or new opportunities.',
-      footerText: 'Architected with high-assurance platform standards.',
+      badge: '// 08. CONTACT',
+      formHeading: 'Send a message',
+      formSubheading: 'Tell me a little about what you are working on.',
+      footerText: 'Designed and built by Abishek VP.',
       visible: true,
     },
   };
@@ -117,13 +132,7 @@ function fromApi(d) {
       },
       bio: { title: p.headline || local.about.bio.title, paragraphs: summary.length ? summary : local.about.bio.paragraphs },
       roleBadge: pick(c, 'about', 'role_badge', local.about.roleBadge),
-      highlights: pick(c, 'about', 'highlights', local.about.highlights),
-    },
-    achievements: {
-      ...local.achievements,
-      items: (d.achievements || []).map((a) => ({
-        icon: a.icon, title: a.title, description: a.description, issuer: a.issuer, date: a.date_label, link: a.link, image: a.image_url,
-      })),
+      facts: pick(c, 'about', 'facts', local.about.facts),
     },
     skills: {
       ...local.skills,
@@ -133,12 +142,9 @@ function fromApi(d) {
         skills: cat.skills.map((sk) => ({ name: sk.name, icon: sk.icon, proficiency: sk.proficiency, learned: sk.learned, implemented: sk.implemented })),
       })),
     },
-    projects: {
-      ...local.projects,
-      items: (d.projects || []).map((pr) => ({
-        id: pr.id, title: pr.title, description: pr.description, tags: pr.tags || [], demo: pr.demo_url, github: pr.github_url, image: pr.image_url, featured: pr.is_featured,
-      })),
-    },
+    // Products, academics and events come from data/showcase.js (see fromLocal).
+    projects: local.projects,
+    events: local.events,
     experience: {
       ...local.experience,
       jobs: (d.experience || []).map((e) => ({
@@ -156,7 +162,7 @@ function fromApi(d) {
         logo: e.logo_url,
       })),
     },
-    education: { ...local.education, items: d.education || [] },
+    education: { ...local.education, degrees: d.education?.length ? d.education : local.education.degrees },
     testimonials: {
       ...local.testimonials,
       items: (d.testimonials || []).map((t) => ({

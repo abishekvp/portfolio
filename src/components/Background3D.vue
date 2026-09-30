@@ -27,13 +27,14 @@ const THEME_PALETTES = {
 
 const SECTION_CONFIG = {
   'home': { shape: 'diamond', centerX: 0.65 },
-  'terminal-section': { shape: 'matrix_cube', centerX: 0.50 },
   'about': { shape: 'scatter', centerX: 0.35 },
-  'achievements': { shape: 'star', centerX: 0.65 },
-  'skills': { shape: 'network', centerX: 0.35 },
-  'projects': { shape: 'bulb', centerX: 0.65 },
-  'experience': { shape: 'globe', centerX: 0.35 },
-  'testimonials': { shape: 'heart', centerX: 0.65 },
+  'experience': { shape: 'globe', centerX: 0.65 },
+  'projects': { shape: 'bulb', centerX: 0.35 },
+  'skills': { shape: 'network', centerX: 0.65 },
+  'education': { shape: 'star', centerX: 0.35 },
+  'events': { shape: 'diamond', centerX: 0.65 },
+  'testimonials': { shape: 'heart', centerX: 0.35 },
+  'terminal-section': { shape: 'matrix_cube', centerX: 0.50 },
   'contact': { shape: 'envelope', centerX: 0.50 }
 };
 

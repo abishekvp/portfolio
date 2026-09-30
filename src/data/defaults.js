@@ -3,43 +3,38 @@
 import heroImage from '../assets/img/abi.jpg';
 
 export const hero = {
-  badge: '// SENIOR PLATFORM & SECURITY ENGINEER',
+  badge: '// SOFTWARE ENGINEER · IDENTITY & PLATFORM SECURITY',
   nameFirst: 'Abishek',
   nameAccent: 'VP',
-  tagline: 'Backend Architecture • Enterprise Integrations • IdP • DevOps',
+  tagline: 'I build the identity, access and secrets infrastructure enterprises run on.',
   description:
-    'Senior Software Engineer specializing in high-throughput backend architecture, enterprise DevOps integrations, Identity Provider management, and automated tooling at Securden.',
+    'At Securden I engineer privileged access management, self-service password reset and DevOps secrets integrations for enterprise IT teams. Outside work I design, ship and operate my own software products end to end.',
   highlights: [
-    { icon: '🛡️', value: '4+ Years', label: 'Security Engineering' },
-    { icon: '🏆', value: 'SIH Winner', label: 'Smart India Hackathon' },
-    { icon: '⚡', value: 'DevOps', label: 'Terraform, Ansible, Jenkins, etc,...' },
+    { icon: '🏢', value: 'Since 2020', label: 'Shipping production software' },
+    { icon: '🚀', value: '4 Products', label: 'Designed, built and run' },
+    { icon: '🎤', value: 'Speaker & Jury', label: 'Engineering colleges' },
   ],
-  primaryCta: { label: 'View Architecture & Projects', href: '#projects' },
-  resumeLabel: 'Download CV',
+  primaryCta: { label: 'Explore My Products', href: '#projects' },
+  resumeLabel: 'Download Resume',
   terminalLabel: 'Launch Terminal CLI',
   portrait: heroImage,
-  portraitTag: 'Software Engineer at Securden',
+  portraitTag: 'Software Engineer · Securden',
   floatingBadges: [
-    { icon: '🛡️', title: 'Security Platform', text: 'PAM, Vault, Password Self-Serv...' },
-    { icon: '⚙️', title: 'IDP and DevOps', text: 'AD, Entra ID, Ansible, Jenkins, Ter...' },
+    { icon: '🔐', title: 'Identity & Access', text: 'PAM · SSPR · AD · Entra ID' },
+    { icon: '⚙️', title: 'Secrets in CI/CD', text: 'Terraform · Jenkins · Ansible' },
   ],
 };
 
-export const achievements = {
-  badge: '// HONORS_AND_CREDENTIALS',
-  sectionTitle: 'Achievements & <span class="gradient-text">Recognition</span>',
-  sectionSubtitle: 'Milestones, hackathon triumphs, and academic contributions',
-  items: [
-    { icon: '🏆', title: 'SIH 2022 Winner', description: 'Winner of Smart India Hackathon 2022, a nationwide initiative to provide students a platform to solve some of the pressing problems we face in our daily lives.' },
-    { icon: '🎤', title: 'AI Horizon 2022', description: 'Orchestrated AI Horizon 2022, leading the organization and execution of the event focused on Artificial Intelligence advancements.' },
-    { icon: '👨‍🏫', title: 'Peer Mentorship', description: 'Conducted placement training for batchmates covering Web Development (HTML, CSS, JS), Figma designing, Git/GitHub, and hosting static websites with GitHub Pages.' },
-    { icon: '⚖️', title: 'Jury Member', description: 'Served as a Jury member for St. Thomas College Internal Hackathon 2024, evaluating innovative projects and selecting teams for the national level.' },
-  ],
-};
+/** Short facts under the About bio (kept distinct from the hero numbers). */
+export const aboutFacts = [
+  { label: 'Currently', value: 'Securden, Chennai' },
+  { label: 'Domain', value: 'IAM · PAM · DevSecOps' },
+  { label: 'Works in', value: 'Python · Node.js · Java' },
+];
 
 export const testimonials = {
-  badge: '// 06. PEER_ENDORSEMENTS',
-  sectionTitle: 'Testimonials & <span class="gradient-text">Feedback</span>',
-  sectionSubtitle: 'What colleagues, students, and professionals say about my platform guidance and security engineering.',
+  badge: '// 07. PEER_ENDORSEMENTS',
+  sectionTitle: 'What People <span class="gradient-text">Say</span>',
+  sectionSubtitle: 'Colleagues, clients and students I have worked with.',
   items: [],
 };

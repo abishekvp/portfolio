@@ -141,29 +141,9 @@ export default {
           iconPath: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'
         },
         {
-          id: 'terminal-section',
-          label: 'Terminal',
-          iconPath: 'M4 17l6-6-6-6m8 14h8'
-        },
-        {
           id: 'about',
           label: 'About',
           iconPath: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'
-        },
-        {
-          id: 'achievements',
-          label: 'Achievements',
-          iconPath: 'M12 15l-2 5l4-2l4 2l-2-5 M12 3a6 6 0 0 0 0 12a6 6 0 0 0 0-12'
-        },
-        {
-          id: 'skills',
-          label: 'Skills',
-          iconPath: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'
-        },
-        {
-          id: 'projects',
-          label: 'Projects',
-          iconPath: 'M16.5 9.4 7.55 4.24a1.78 1.78 0 0 0-2.5 1.55v12.42a1.78 1.78 0 0 0 2.5 1.55L16.5 14.6a1.78 1.78 0 0 0 0-3.2z'
         },
         {
           id: 'experience',
@@ -171,9 +151,34 @@ export default {
           iconPath: 'M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'
         },
         {
+          id: 'projects',
+          label: 'Products',
+          iconPath: 'M12 2 2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5'
+        },
+        {
+          id: 'skills',
+          label: 'Skills',
+          iconPath: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'
+        },
+        {
+          id: 'education',
+          label: 'Education',
+          iconPath: 'M22 10 12 5 2 10l10 5 10-5z M6 12v5c3 3 9 3 12 0v-5'
+        },
+        {
+          id: 'events',
+          label: 'Events',
+          iconPath: 'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z M19 10v2a7 7 0 0 1-14 0v-2 M12 19v3'
+        },
+        {
           id: 'testimonials',
           label: 'Testimonials',
           iconPath: 'M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z'
+        },
+        {
+          id: 'terminal-section',
+          label: 'Terminal',
+          iconPath: 'M4 17l6-6-6-6m8 14h8'
         },
         {
           id: 'contact',

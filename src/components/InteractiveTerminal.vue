@@ -29,8 +29,8 @@
  \_| |_(_)\____/ \___/\____/\_| |_|____/\_| \_/
         </pre>
         <p class="welcome-text">
-          <strong class="text-accent">Abishek VP</strong> — Senior Software Engineer | Enterprise Security, IdP & DevOps Integ...<br />
-          SIH Winner • Securden Platform Engineer • Password Vault & SSPR Integrations.
+          <strong class="text-accent">Abishek VP</strong> — Software Engineer · Identity, Access &amp; Platform Security<br />
+          Securden • Builder of Portfolio Manager, Family Finance &amp; Credentials.
         </p>
         <p class="welcome-hint">
           Type <span class="cmd-pill">help</span> to view all commands or click the shortcut chips below.
@@ -102,16 +102,16 @@ export default {
       history: [
         {
           command: 'whoami',
-          output: `<span class="text-cyan">abishek.vp</span> &bull; Senior Software Engineer specializing in Backend Architecture, Enterprise DevOps Integrations, and Identity Providers (IdP).`
+          output: `<span class="text-cyan">abishek.vp</span> &bull; Software Engineer at Securden, building identity, access and secrets infrastructure.`
         }
       ],
       quickChips: [
         { label: 'help', cmd: 'help' },
         { label: 'about', cmd: 'about' },
         { label: 'skills', cmd: 'skills' },
-        { label: 'projects', cmd: 'projects' },
         { label: 'experience', cmd: 'experience' },
-        { label: 'sih-winner', cmd: 'sih' },
+        { label: 'products', cmd: 'products' },
+        { label: 'events', cmd: 'events' },
         { label: 'resume.pdf', cmd: 'resume' },
         { label: 'clear', cmd: 'clear' }
       ]
@@ -134,8 +134,8 @@ export default {
       this.pastCommands.push(rawCmd);
       this.historyIndex = this.pastCommands.length;
 
-      const [command, ...args] = rawCmd.split(' ');
-      const output = this.handleCommand(command.toLowerCase(), args);
+      const [command] = rawCmd.split(' ');
+      const output = this.handleCommand(command.toLowerCase());
 
       if (command.toLowerCase() === 'clear') {
         this.history = [];
@@ -148,68 +148,73 @@ export default {
         this.scrollToBottom();
       });
     },
-    handleCommand(cmd, args) {
+    handleCommand(cmd) {
       switch (cmd) {
         case 'help':
           return `
 <div class="cmd-table">
   <div><span class="cmd-name">help</span> — Display this command reference guide</div>
-  <div><span class="cmd-name">about</span> — Detailed engineer bio, philosophy, and accomplishments</div>
-  <div><span class="cmd-name">skills</span> — Full technical stack (Backend, Enterprise Integrations, IdP, DevOps)</div>
-  <div><span class="cmd-name">projects</span> — Key enterprise and open-source platform solutions</div>
-  <div><span class="cmd-name">experience</span> — Securden career trajectory & vault engineering</div>
-  <div><span class="cmd-name">sih</span> — Smart India Hackathon Winner insights</div>
-  <div><span class="cmd-name">resume</span> — Download verified CV (PDF) with analytics</div>
-  <div><span class="cmd-name">contact</span> — Get in touch via Email, LinkedIn, or GitHub</div>
+  <div><span class="cmd-name">about</span> — Who I am and what I focus on</div>
+  <div><span class="cmd-name">experience</span> — Securden, DAAT and ROOK</div>
+  <div><span class="cmd-name">products</span> — Live products I build and run</div>
+  <div><span class="cmd-name">skills</span> — Technical stack</div>
+  <div><span class="cmd-name">education</span> — Degree, internships and college projects</div>
+  <div><span class="cmd-name">events</span> — Guest lectures and hackathon juries</div>
+  <div><span class="cmd-name">resume</span> — Download my resume (PDF)</div>
+  <div><span class="cmd-name">contact</span> — Email, LinkedIn and GitHub</div>
   <div><span class="cmd-name">whoami</span> — Identity and current context</div>
-  <div><span class="cmd-name">sudo hire</span> — Unlock VIP recruiter access</div>
   <div><span class="cmd-name">clear</span> — Clear terminal output</div>
 </div>`;
 
         case 'about':
           return `
-<p><strong>Abishek VP</strong> — Senior Software Engineer with 4+ years of expertise building resilient enterprise applications and connecting DevOps toolchains.</p>
-<p>&bull; <strong>Backend Architecture:</strong> Designing high-throughput, secure, and resilient enterprise applications.</p>
-<p>&bull; <strong>Enterprise Integrations:</strong> Seamlessly connecting and integrating extensive DevOps toolchains.</p>
-<p>&bull; <strong>Identity Providers:</strong> Implementing and managing Identity Provider (IdP) integrations.</p>
-<p>&bull; <strong>Automated Tooling:</strong> Scripting automations and streamlining workflows with Playwright, BeautifulSoup4, and Selenium, alongside DevOps tools such as Ansible, Jenkins, Terraform, Chef, and Puppet.</p>
-<p>&bull; <strong>Awards:</strong> Smart India Hackathon (SIH) Winner.</p>`;
+<p><strong>Abishek VP</strong> — Software Engineer building enterprise identity, access and secrets infrastructure.</p>
+<p>&bull; <strong>Identity &amp; Access:</strong> PAM, Just-In-Time approvals and password self-service across AD, Entra ID and Google Workspace.</p>
+<p>&bull; <strong>Secrets in CI/CD:</strong> Published Terraform, Jenkins, Ansible, Chef and Puppet plugins.</p>
+<p>&bull; <strong>Product Engineering:</strong> Designs, ships and runs his own products end to end.</p>`;
 
         case 'skills':
           return `
 <div class="skills-output">
-  <div><span class="text-cyan">Backend Architecture:</span> Python, Django, REST APIs, SQL, PostgreSQL, MongoDB, High-throughput systems</div>
-  <div><span class="text-green">Identity Providers (IdP):</span> Active Directory, Entra ID (Azure AD), Google Workspace, SSPR Engine</div>
-  <div><span class="text-purple">Enterprise Integrations:</span> Terraform, Ansible, Jenkins, CI/CD, Chef, Puppet, Docker</div>
-  <div><span class="text-yellow">Automated Tooling:</span> Playwright, BeautifulSoup4, Selenium, Bash/Shell scripting</div>
+  <div><span class="text-cyan">Backend:</span> Python, Django, Node.js, Express, REST APIs, PostgreSQL, MongoDB</div>
+  <div><span class="text-green">Identity:</span> Active Directory, Entra ID (Azure AD), Google Workspace, PAM, SSPR</div>
+  <div><span class="text-purple">DevOps:</span> Terraform, Ansible, Jenkins, Chef, Puppet</div>
+  <div><span class="text-yellow">Automation:</span> Playwright, Selenium, BeautifulSoup4</div>
 </div>`;
 
         case 'projects':
+        case 'products':
           return `
 <div class="projects-output">
-  <div class="project-line">
-    &bull; <strong class="text-cyan">Securden Password Vault Plugins</strong> — Custom Ansible & Terraform integrations for automated privileged credential retrieval.
-  </div>
-  <div class="project-line">
-    &bull; <strong class="text-cyan">Enterprise SSPR Engine</strong> — Self-service password reset & directory synchronization platform across Active Directory & Entra ID.
-  </div>
-  <div class="project-line">
-    &bull; <strong class="text-cyan">SIH Winner Platform</strong> — Award-winning distributed solution recognized at national level hackathon.
-  </div>
-  <p class="mt-2 text-muted">Scroll down to the <a href="#projects" class="term-link">Projects Section</a> for full architecture breakdowns & repos.</p>
+  <div class="project-line">&bull; <strong class="text-cyan">Portfolio Manager</strong> — Headless CMS for personal websites. <a href="https://admin.abishek.in" target="_blank" rel="noopener" class="term-link">admin.abishek.in</a></div>
+  <div class="project-line">&bull; <strong class="text-cyan">Family Finance</strong> — Household money, managed together. <a href="https://finance.abishek.in" target="_blank" rel="noopener" class="term-link">finance.abishek.in</a></div>
+  <div class="project-line">&bull; <strong class="text-cyan">Credentials</strong> — Zero-knowledge password vault. <a href="https://credentials.abishek.in" target="_blank" rel="noopener" class="term-link">credentials.abishek.in</a></div>
+  <div class="project-line">&bull; <strong class="text-cyan">Service Subscription Manager</strong> — Every recurring charge in one place.</div>
+  <p class="mt-2 text-muted">See the <a href="#projects" class="term-link">Products section</a> for details.</p>
 </div>`;
 
         case 'experience':
           return `
-<p><strong>Securden Inc.</strong> &bull; Senior Software Engineer (4+ Years)</p>
-<p>- Architected credential rotation pipelines and zero-trust vault access protocols.</p>
-<p>- Built custom published plugins for DevOps ecosystems (Ansible, Jenkins, Terraform).</p>
-<p>- Led enterprise client migrations and identity synchronization modules.</p>`;
+<p><strong>Securden</strong> &bull; Software Engineer &bull; Mar 2024 – Present</p>
+<p>- PAM, Just-In-Time access, SSPR and identity provider integrations; DevOps secrets plugins.</p>
+<p><strong>DAAT</strong> &bull; Software Engineer &bull; May 2022 – Feb 2024</p>
+<p>- Backend workflows for a SaaS platform and a student management system; internal project management tool.</p>
+<p><strong>ROOK</strong> &bull; Software Engineer &bull; Aug 2020 – Apr 2022</p>
+<p>- Full-stack modules in Python, Django and JavaScript, from research to production.</p>`;
 
-        case 'sih':
+        case 'education':
           return `
-<p class="text-yellow"><strong>🏆 SMART INDIA HACKATHON WINNER</strong></p>
-<p>Led the team to first place in the national-level Smart India Hackathon, designing and deploying an enterprise-grade automated platform under rigorous evaluation by industry leaders.</p>`;
+<p><strong>B.E. Computer Science Engineering</strong> &bull; Rajalakshmi Institute of Technology, Chennai (2020 – 2024)</p>
+<p>- Internship at Madras Defence Academy; big data fault analysis project with SetConnect.</p>
+<p>- <span class="text-yellow">Smart India Hackathon 2022 winner</span> with GrantBase.</p>
+<p>- Led AI Horizon 2022 and ran placement training for my batch.</p>
+<p class="text-muted">More in the <a href="#education" class="term-link">Education section</a>.</p>`;
+
+        case 'events':
+          return `
+<p>&bull; <strong>Guest Lecture</strong> — Java concurrency for enterprise systems, Vel Tech High Tech, Chennai (26 Sep 2026)</p>
+<p>&bull; <strong>Jury Member</strong> — Internal Hackathon, Rajalakshmi Institute of Technology (2026)</p>
+<p>&bull; <strong>Jury Member</strong> — Internal Hackathon, St. Joseph College of Engineering (2024)</p>`;
 
         case 'resume':
           this.triggerResumeDownload();
@@ -227,17 +232,10 @@ export default {
 </div>`;
 
         case 'whoami':
-          return `You are a distinguished visitor exploring Abishek's platform engineering and security capabilities.`;
+          return `guest &bull; exploring Abishek's work. Try <span class="cmd-pill">products</span> or <span class="cmd-pill">events</span>.`;
 
         case 'sudo':
-          if (args.join(' ') === 'hire') {
-            return `
-<div class="text-green">
-  <strong>[ACCESS GRANTED]</strong> Welcome aboard! Let's build extraordinary platforms together.<br />
-  Direct phone/email credentials unlocked. Redirecting to <a href="#contact" class="term-link">#contact</a>.
-</div>`;
-          }
-          return `<span class="text-red">sudo: unknown command. Did you mean 'sudo hire'?</span>`;
+          return `<span class="text-green">[ACCESS GRANTED]</span> Let's build something together: <a href="#contact" class="term-link">#contact</a>.`;
 
         default:
           return `<span class="text-red">zsh: command not found: ${cmd}</span>. Type <span class="cmd-pill">help</span> for a list of valid commands.`;

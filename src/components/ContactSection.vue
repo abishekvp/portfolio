@@ -54,13 +54,13 @@
               <input
                 type="text"
                 name="subject"
-                placeholder="Platform Engineering / IAM Advisory / General Inquiry"
+                placeholder="Product, architecture, speaking or something else"
                 class="glass-input"
               />
             </div>
 
             <div class="form-group">
-              <label>Message Payload *</label>
+              <label>Message *</label>
               <textarea
                 name="message"
                 required
@@ -78,7 +78,7 @@
                 <line x1="22" y1="2" x2="11" y2="13"></line>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
               </svg>
-              <span>Transmit Message</span>
+              <span>Send Message</span>
             </button>
 
             <!-- Auto-populated response container -->
@@ -90,7 +90,7 @@
         <div class="contact-info-col">
           <div class="contact-info-card glass-card">
             <h3 class="info-title">{{ contactData.intro }}</h3>
-            <p class="info-roles">{{ contactData.roles }}</p>
+            <p v-if="contactData.roles" class="info-roles">{{ contactData.roles }}</p>
 
             <div class="methods-list">
               <a

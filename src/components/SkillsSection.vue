@@ -33,19 +33,15 @@
             >
               <div class="skill-main">
                 <h4 class="skill-name">{{ skill.name }}</h4>
-                <div class="skill-status-tag">
-                  <span class="pulse-dot-sm"></span>
-                  <span>PRODUCTION READY</span>
-                </div>
               </div>
 
               <div class="skill-details" v-if="skill.learned || skill.implemented">
                 <div class="detail-row" v-if="skill.implemented">
-                  <span class="detail-label">Deployment:</span>
+                  <span class="detail-label">Delivered:</span>
                   <p class="detail-text">{{ skill.implemented }}</p>
                 </div>
                 <div class="detail-row" v-if="skill.learned">
-                  <span class="detail-label">Knowledge:</span>
+                  <span class="detail-label">Background:</span>
                   <p class="detail-text">{{ skill.learned }}</p>
                 </div>
               </div>
@@ -159,23 +155,6 @@ export default {
   font-size: 1rem;
   font-weight: 600;
   color: var(--color-text-primary);
-}
-
-.skill-status-tag {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: #10b981;
-  letter-spacing: 0.5px;
-}
-
-.pulse-dot-sm {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #10b981;
 }
 
 .skill-details {

@@ -22,13 +22,14 @@
     <!-- Main Content Stream (Allocated space on desktop to avoid hiding content) -->
     <main class="main-content">
       <HeroSection />
-      <TerminalSection />
       <AboutSection />
-      <AchievementsSection />
-      <SkillsSection />
-      <ProjectsSection />
       <ExperienceSection />
+      <ProjectsSection />
+      <SkillsSection />
+      <EducationSection />
+      <EventsSection />
       <TestimonialsSection />
+      <TerminalSection />
       <ContactSection />
     </main>
 
@@ -52,9 +53,10 @@ import SideNavBar from "./components/SideNavBar.vue";
 import HeroSection from "./components/HeroSection.vue";
 import TerminalSection from "./components/TerminalSection.vue";
 import AboutSection from "./components/AboutSection.vue";
-import AchievementsSection from "./components/AchievementsSection.vue";
 import SkillsSection from "./components/SkillsSection.vue";
 import ProjectsSection from "./components/ProjectsSection.vue";
+import EducationSection from "./components/EducationSection.vue";
+import EventsSection from "./components/EventsSection.vue";
 import ExperienceSection from "./components/ExperienceSection.vue";
 import TestimonialsSection from "./components/TestimonialsSection.vue";
 import ContactSection from "./components/ContactSection.vue";
@@ -70,9 +72,10 @@ export default {
     HeroSection,
     TerminalSection,
     AboutSection,
-    AchievementsSection,
     SkillsSection,
     ProjectsSection,
+    EducationSection,
+    EventsSection,
     ExperienceSection,
     TestimonialsSection,
     ContactSection,
