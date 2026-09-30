@@ -1,9 +1,9 @@
 <template>
-  <section id="experience" class="section experience-section">
+  <section v-if="experienceData.visible" id="experience" class="section experience-section">
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>// 05. CAREER_TRAJECTORY</span>
+          <span>{{ experienceData.badge }}</span>
         </div>
         <h2 v-html="experienceData.sectionTitle"></h2>
         <p class="text-secondary">{{ experienceData.sectionSubtitle }}</p>
@@ -49,7 +49,13 @@
               </div>
 
               <div class="timeline-meta">
-                <span class="period font-mono">{{ exp.period || formatPeriod(exp.start_date, exp.end_date, exp.is_current) }}</span>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="period font-mono">{{ exp.period || formatPeriod(exp.start_date, exp.end_date, exp.is_current) }}</span>
+                  <span v-if="exp.jobType" 
+                        :class="['px-2 py-0.5 text-xs font-medium rounded-full', jobTypeBadgeClass(exp.jobType)]">
+                    {{ formatJobType(exp.jobType) }}
+                  </span>
+                </div>
                 <a
                   v-if="exp.companyUrl"
                   :href="exp.companyUrl"
@@ -63,6 +69,12 @@
             </div>
 
             <p class="role-desc">{{ exp.description }}</p>
+
+            <p v-if="exp.technologies && exp.technologies.length" class="tech-line text-sm" style="color: var(--color-accent-primary); margin-bottom: var(--spacing-md); font-family: var(--font-mono); font-size: 0.85rem;">
+              <span v-for="(tech, i) in exp.technologies" :key="tech">
+                {{ tech }}<span v-if="i < exp.technologies.length - 1" class="mx-2" style="color: var(--color-text-secondary); opacity: 0.5;">·</span>
+              </span>
+            </p>
 
             <div class="achievements" v-if="exp.achievements && exp.achievements.length">
               <div
@@ -82,42 +94,17 @@
 </template>
 
 <script>
-import portfolioData from "../data/portfolio.json";
-import { portfolioService } from "../services/portfolioService";
+import { portfolioStore } from "../services/portfolioService";
 
 export default {
   name: "ExperienceSection",
-  data() {
-    return {
-      experienceData: portfolioData.experience,
-      apiExperience: []
-    };
-  },
   computed: {
+    experienceData() {
+      return portfolioStore.experience;
+    },
     allJobs() {
-      if (this.apiExperience && this.apiExperience.length > 0) {
-        return this.apiExperience.map(item => ({
-          title: item.job_title,
-          company: item.company,
-          companyUrl: '',
-          start_date: item.start_date,
-          end_date: item.end_date,
-          is_current: item.is_current,
-          description: item.description,
-          achievements: item.technologies ? item.technologies.split(',').map(t => `Key Tech: ${t.trim()}`) : []
-        }));
-      }
       return this.experienceData.jobs || [];
     }
-  },
-  mounted() {
-    portfolioService.subscribe((data) => {
-      if (data && data.apiExperience && data.apiExperience.length > 0) {
-        this.apiExperience = data.apiExperience;
-      } else if (data && data.experience) {
-        this.experienceData = data.experience;
-      }
-    });
   },
   methods: {
     formatPeriod(start, end, current) {
@@ -125,6 +112,26 @@ export default {
       const s = new Date(start).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       const e = current ? 'Present' : (end ? new Date(end).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '');
       return `${s} – ${e}`;
+    },
+    formatJobType(type) {
+      const labels = {
+        'full_time': 'Full Time',
+        'part_time': 'Part Time',
+        'internship': 'Internship',
+        'freelance': 'Freelance',
+        'contract': 'Contract'
+      }
+      return labels[type] || type
+    },
+    jobTypeBadgeClass(type) {
+      const classes = {
+        'full_time': 'bg-green-500/20 text-green-300 border border-green-500/30',
+        'part_time': 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30',
+        'internship': 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+        'freelance': 'bg-orange-500/20 text-orange-300 border border-orange-500/30',
+        'contract': 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+      }
+      return classes[type] || 'bg-gray-500/20 text-gray-300 border border-gray-500/30'
     }
   }
 };

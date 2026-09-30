@@ -200,7 +200,7 @@
       {
         "id": 3,
         "title": "LEGALTECH – Software Implementation in Law firms",
-        "description": "Engineered a platform bridging legal professionals and clients. Built backend features allowing lawyers to manage case records securely and enabling users to find advocates based on historical case data.",
+        "description": "Engineered a platform bridging legal professionals and professionals. Built backend features allowing lawyers to manage case records securely and enabling users to find advocates based on historical case data.",
         "tags": [
           "Django",
           "Selenium",

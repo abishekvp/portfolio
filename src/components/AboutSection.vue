@@ -1,9 +1,9 @@
 <template>
-  <section id="about" class="section about-section">
+  <section v-if="aboutData.visible" id="about" class="section about-section">
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>// 02. SYSTEM_SPECIFICATION</span>
+          <span>{{ aboutData.badge }}</span>
         </div>
         <h2 v-html="aboutData.sectionTitle"></h2>
         <p class="text-secondary">{{ aboutData.sectionSubtitle }}</p>
@@ -40,8 +40,8 @@
 
         <!-- Right Column: Bio Narrative -->
         <div class="about-narrative glass-card">
-          <div class="narrative-badge">
-            <span>ROLE: SENIOR_SOFTWARE_ENGINEER</span>
+          <div v-if="aboutData.roleBadge" class="narrative-badge">
+            <span>{{ aboutData.roleBadge }}</span>
           </div>
 
           <h3 class="narrative-headline">{{ aboutData.bio.title }}</h3>
@@ -73,23 +73,15 @@
 </template>
 
 <script>
-import portfolioData from "../data/portfolio.json";
-import { portfolioService } from "../services/portfolioService";
+import { portfolioStore } from "../services/portfolioService";
 
 export default {
   name: "AboutSection",
-  data() {
-    return {
-      aboutData: portfolioData.about,
-    };
+  computed: {
+    aboutData() {
+      return portfolioStore.about;
+    },
   },
-  mounted() {
-    portfolioService.subscribe((data) => {
-      if (data && data.about) {
-        this.aboutData = data.about;
-      }
-    });
-  }
 };
 </script>
 

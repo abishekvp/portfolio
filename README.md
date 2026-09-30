@@ -67,7 +67,7 @@ Update the following files with your personal information:
 
    - Change "Your Name" to your actual name
    - Update the subtitle and description
-   - Modify the stats (years of experience, projects, clients)
+   - Modify the stats (years of experience, projects)
 
 2. **About Section** (`src/components/AboutSection.vue`):
 

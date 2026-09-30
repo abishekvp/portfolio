@@ -5,58 +5,44 @@
         <!-- Left: Text Content -->
         <div class="hero-content">
           <!-- Terminal Status Pill -->
-          <div class="hero-badge-wrapper animate-fade-in-up">
+          <div v-if="hero.badge" class="hero-badge-wrapper animate-fade-in-up">
             <div class="code-badge">
               <span class="pulse-dot"></span>
-              <span>// SENIOR PLATFORM & SECURITY ENGINEER</span>
+              <span>{{ hero.badge }}</span>
             </div>
           </div>
 
           <h1 class="hero-name animate-fade-in-up" style="animation-delay: 0.1s">
-            Abishek <span class="gradient-text">VP</span>
+            {{ hero.nameFirst }} <span v-if="hero.nameAccent" class="gradient-text">{{ hero.nameAccent }}</span>
           </h1>
 
-          <p class="hero-title animate-fade-in-up" style="animation-delay: 0.2s">
-            Backend Architecture &bull; Enterprise Integrations &bull; IdP &bull; DevOps
+          <p v-if="hero.tagline" class="hero-title animate-fade-in-up" style="animation-delay: 0.2s">
+            {{ hero.tagline }}
           </p>
 
-          <p class="hero-description animate-fade-in-up" style="animation-delay: 0.3s">
-            Senior Software Engineer specializing in high-throughput backend architecture, enterprise DevOps integrations, Identity Provider management, and automated tooling at Securden.
+          <p v-if="hero.description" class="hero-description animate-fade-in-up" style="animation-delay: 0.3s">
+            {{ hero.description }}
           </p>
 
           <!-- Core stats / highlights -->
-          <div class="hero-highlights animate-fade-in-up" style="animation-delay: 0.35s">
-            <div class="highlight-item glass-card">
-              <span class="highlight-icon">🛡️</span>
+          <div v-if="hero.highlights.length" class="hero-highlights animate-fade-in-up" style="animation-delay: 0.35s">
+            <div v-for="(item, i) in hero.highlights" :key="i" class="highlight-item glass-card">
+              <span class="highlight-icon">{{ item.icon }}</span>
               <div>
-                <span class="highlight-val">4+ Years</span>
-                <span class="highlight-lbl">Security Engineering</span>
-              </div>
-            </div>
-            <div class="highlight-item glass-card">
-              <span class="highlight-icon">🏆</span>
-              <div>
-                <span class="highlight-val">SIH Winner</span>
-                <span class="highlight-lbl">Smart India Hackathon</span>
-              </div>
-            </div>
-            <div class="highlight-item glass-card">
-              <span class="highlight-icon">⚡</span>
-              <div>
-                <span class="highlight-val">DevOps</span>
-                <span class="highlight-lbl">Terraform, Ansible, Jenkins, etc,...</span>
+                <span class="highlight-val">{{ item.value }}</span>
+                <span class="highlight-lbl">{{ item.label }}</span>
               </div>
             </div>
           </div>
 
           <!-- CTAs -->
           <div class="hero-actions animate-fade-in-up" style="animation-delay: 0.4s">
-            <a href="#projects" class="btn btn-primary">
-              View Architecture & Projects
+            <a :href="hero.primaryCta.href" class="btn btn-primary">
+              {{ hero.primaryCta.label }}
             </a>
             <a
-              href="/resume.pdf"
-              download="Abishek_VP_Resume.pdf"
+              :href="store.resumeUrl"
+              :download="store.resumeFilename"
               data-track="resume"
               class="btn btn-glass resume-cta"
             >
@@ -65,10 +51,10 @@
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
               </svg>
-              <span>Download CV</span>
+              <span>{{ hero.resumeLabel }}</span>
             </a>
             <a href="#terminal-section" class="btn btn-glass cli-cta">
-              <span>Launch Terminal CLI</span>
+              <span>{{ hero.terminalLabel }}</span>
             </a>
           </div>
         </div>
@@ -78,29 +64,25 @@
           <div class="focal-card-container">
             <div class="portrait-glow"></div>
             <div class="portrait-frame glass">
-              <img src="../assets/img/abi.jpg" alt="Abishek VP" class="portrait-img" />
+              <img :src="hero.portrait" :alt="`${hero.nameFirst} ${hero.nameAccent}`.trim()" class="portrait-img" />
               <div class="portrait-overlay">
-                <div class="portrait-tag" style="margin-bottom: 40px">
+                <div v-if="hero.portraitTag" class="portrait-tag" style="margin-bottom: 40px">
                   <span class="tag-dot"></span>
-                  <span>Software Engineer at Securden</span>
+                  <span>{{ hero.portraitTag }}</span>
                 </div>
               </div>
             </div>
 
             <!-- Floating Glass Badges -->
-            <div class="floating-badge badge-top-right glass-card">
-              <span class="badge-icon">🛡️</span>
+            <div
+              v-for="(badge, i) in hero.floatingBadges.slice(0, 2)"
+              :key="i"
+              :class="['floating-badge', 'glass-card', i === 0 ? 'badge-top-right' : 'badge-bottom-left']"
+            >
+              <span class="badge-icon">{{ badge.icon }}</span>
               <div>
-                <strong>Security Platform</strong>
-                <p>PAM, Vault, Password Self-Serv...</p>
-              </div>
-            </div>
-
-            <div class="floating-badge badge-bottom-left glass-card">
-              <span class="badge-icon">⚙️</span>
-              <div>
-                <strong>IDP and DevOps</strong>
-                <p>AD, Entra ID, Ansible, Jenkins, Ter...</p>
+                <strong>{{ badge.title }}</strong>
+                <p>{{ badge.text }}</p>
               </div>
             </div>
           </div>
@@ -111,8 +93,18 @@
 </template>
 
 <script>
+import { portfolioStore } from '../services/portfolioService';
+
 export default {
-  name: 'HeroSection'
+  name: 'HeroSection',
+  computed: {
+    store() {
+      return portfolioStore;
+    },
+    hero() {
+      return portfolioStore.hero;
+    },
+  },
 };
 </script>
 

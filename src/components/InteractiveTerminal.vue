@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import { portfolioStore } from '../services/portfolioService';
+
 export default {
   name: 'InteractiveTerminal',
   props: {
@@ -212,8 +214,8 @@ export default {
         case 'resume':
           this.triggerResumeDownload();
           return `
-<p class="text-green">&#x2714; Initiating download for <strong>Abishek_VP_Resume.pdf</strong>...</p>
-<p class="text-muted">Direct link: <a href="/resume.pdf" download="Abishek_VP_Resume.pdf" data-track="resume" class="term-link">Click here if download did not start</a>.</p>`;
+<p class="text-green">&#x2714; Initiating download for <strong>${portfolioStore.resumeFilename}</strong>...</p>
+<p class="text-muted">Direct link: <a href="${portfolioStore.resumeUrl}" download="${portfolioStore.resumeFilename}" data-track="resume" class="term-link">Click here if download did not start</a>.</p>`;
 
         case 'contact':
           return `
@@ -261,8 +263,8 @@ export default {
     },
     triggerResumeDownload() {
       const link = document.createElement('a');
-      link.href = '/resume.pdf';
-      link.download = 'Abishek_VP_Resume.pdf';
+      link.href = portfolioStore.resumeUrl;
+      link.download = portfolioStore.resumeFilename;
       link.setAttribute('data-track', 'resume');
       document.body.appendChild(link);
       link.click();

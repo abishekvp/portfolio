@@ -1,9 +1,9 @@
 <template>
-  <section id="contact" class="section contact-section">
+  <section v-if="contactData.visible" id="contact" class="section contact-section">
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>// 07. COMMUNICATION_CHANNELS</span>
+          <span>{{ contactData.badge }}</span>
         </div>
         <h2 v-html="contactData.sectionTitle"></h2>
         <p class="text-secondary">{{ contactData.sectionSubtitle }}</p>
@@ -19,9 +19,9 @@
             <span class="terminal-tag ml-auto">send_message.sh</span>
           </div>
 
-          <h3 class="form-heading">Send a Direct Transmission</h3>
-          <p class="form-subheading">
-            Whether you want to discuss platform engineering, security architectures, mentorship, or new opportunities.
+          <h3 class="form-heading">{{ contactData.formHeading }}</h3>
+          <p v-if="contactData.formSubheading" class="form-subheading">
+            {{ contactData.formSubheading }}
           </p>
 
           <!-- Automatic Form Interception via data-abishek-contact -->
@@ -69,6 +69,9 @@
                 class="glass-input"
               ></textarea>
             </div>
+
+            <!-- Honeypot: humans never see or fill this field -->
+            <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
 
             <button type="submit" class="btn btn-primary submit-btn">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
@@ -136,7 +139,7 @@
             <span>SYSTEM_ONLINE // DEPLOYED VIA VUE 3 & THREE.JS</span>
           </div>
           <p class="copyright">
-            &copy; {{ new Date().getFullYear() }} Abishek VP. Architected with high-assurance platform standards.
+            &copy; {{ new Date().getFullYear() }} {{ profile.name || 'Abishek VP' }}. {{ contactData.footerText }}
           </p>
         </div>
       </footer>
@@ -145,23 +148,18 @@
 </template>
 
 <script>
-import portfolioData from "../data/portfolio.json";
-import { portfolioService } from "../services/portfolioService";
+import { portfolioStore } from "../services/portfolioService";
 
 export default {
   name: "ContactSection",
-  data() {
-    return {
-      contactData: portfolioData.contact,
-    };
+  computed: {
+    contactData() {
+      return portfolioStore.contact;
+    },
+    profile() {
+      return portfolioStore.profile;
+    },
   },
-  mounted() {
-    portfolioService.subscribe((data) => {
-      if (data && data.contact) {
-        this.contactData = data.contact;
-      }
-    });
-  }
 };
 </script>
 

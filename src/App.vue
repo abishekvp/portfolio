@@ -13,7 +13,10 @@
       </a>
     </header>
 
-    <!-- Expandable Pulse Side Nav Dock (pulse-template style) with Theme Picker -->
+    <!-- Mobile Top Navigation Bar (Active on mobile <= 768px with rotating hamburger/close mark) -->
+    <NavigationBar @toggle-terminal="toggleTerminalModal" />
+
+    <!-- Expandable Pulse Side Nav Dock (pulse-template style, active on desktop > 768px) -->
     <SideNavBar @toggle-terminal="toggleTerminalModal" />
 
     <!-- Main Content Stream (Allocated space on desktop to avoid hiding content) -->
@@ -44,6 +47,7 @@
 
 <script>
 import Background3D from "./components/Background3D.vue";
+import NavigationBar from "./components/NavigationBar.vue";
 import SideNavBar from "./components/SideNavBar.vue";
 import HeroSection from "./components/HeroSection.vue";
 import TerminalSection from "./components/TerminalSection.vue";
@@ -61,6 +65,7 @@ export default {
   name: "App",
   components: {
     Background3D,
+    NavigationBar,
     SideNavBar,
     HeroSection,
     TerminalSection,
@@ -173,14 +178,14 @@ export default {
 
 @media (max-width: 768px) {
   .top-brand-bar {
-    right: 1rem;
-    top: 1rem;
+    display: none !important;
   }
   
   .main-content {
     padding-left: 0;
     padding-right: 0;
-    padding-bottom: 5.5rem; /* Room for bottom dock */
+    padding-top: 4.25rem; /* Room for fixed mobile top navbar */
+    padding-bottom: 2rem;
   }
 }
 

@@ -89,8 +89,8 @@
 
         <!-- Resume Download with data-track="resume" for admin silent tracking -->
         <a
-          href="/resume.pdf"
-          download="Abishek_VP_Resume.pdf"
+          :href="resumeUrl"
+          :download="resumeFilename"
           data-track="resume"
           data-analytics="resume_download"
           class="dock-action-btn resume-btn"
@@ -111,6 +111,8 @@
 </template>
 
 <script>
+import { portfolioStore } from '../services/portfolioService';
+
 export default {
   name: 'SideNavBar',
   emits: ['toggle-terminal'],
@@ -182,6 +184,12 @@ export default {
     };
   },
   computed: {
+    resumeUrl() {
+      return portfolioStore.resumeUrl;
+    },
+    resumeFilename() {
+      return portfolioStore.resumeFilename;
+    },
     currentThemeColor() {
       const t = this.themes.find(th => th.id === this.currentTheme);
       return t ? t.color : '#0ea5e9';
@@ -614,52 +622,10 @@ export default {
   color: #10b981;
 }
 
-/* Mobile Responsive Bottom Dock */
+/* Hide SideNavBar completely on mobile view in favor of the mobile top navbar */
 @media (max-width: 768px) {
   .sidenav-wrapper {
-    left: 50%;
-    bottom: 1.25rem;
-    top: auto;
-    transform: translateX(-50%);
-    width: auto;
-    max-width: 95vw;
-  }
-
-  .sidenav-dock {
-    flex-direction: row;
-    width: auto !important;
-    padding: 0.5rem 0.85rem;
-    gap: 0.4rem;
-    border-radius: 9999px;
-  }
-
-  .dock-brand,
-  .dock-divider,
-  .dock-label {
     display: none !important;
-  }
-
-  .dock-items {
-    flex-direction: row;
-    gap: 0.2rem;
-    width: auto;
-  }
-
-  .dock-item,
-  .dock-action-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    justify-content: center;
-  }
-
-  .theme-flyout {
-    left: auto;
-    right: 0;
-    top: auto;
-    bottom: calc(100% + 12px);
-    width: 185px;
-    max-height: 55vh;
   }
 }
 </style>

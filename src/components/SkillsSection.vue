@@ -1,9 +1,9 @@
 <template>
-  <section id="skills" class="section skills-section">
+  <section v-if="skillsData.visible" id="skills" class="section skills-section">
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>// 03. CAPABILITIES_MATRIX</span>
+          <span>{{ skillsData.badge }}</span>
         </div>
         <h2 v-html="skillsData.sectionTitle"></h2>
         <p class="text-secondary">{{ skillsData.sectionSubtitle }}</p>
@@ -58,23 +58,15 @@
 </template>
 
 <script>
-import portfolioData from "../data/portfolio.json";
-import { portfolioService } from "../services/portfolioService";
+import { portfolioStore } from "../services/portfolioService";
 
 export default {
   name: "SkillsSection",
-  data() {
-    return {
-      skillsData: portfolioData.skills,
-    };
+  computed: {
+    skillsData() {
+      return portfolioStore.skills;
+    },
   },
-  mounted() {
-    portfolioService.subscribe((data) => {
-      if (data && data.skills) {
-        this.skillsData = data.skills;
-      }
-    });
-  }
 };
 </script>
 

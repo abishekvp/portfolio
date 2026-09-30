@@ -1,44 +1,25 @@
 <template>
-  <section id="achievements" class="section">
+  <section v-if="data.visible && data.items.length" id="achievements" class="section">
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>// HONORS_AND_CREDENTIALS</span>
+          <span>{{ data.badge }}</span>
         </div>
-        <h2>Achievements & <span class="gradient-text">Recognition</span></h2>
-        <p class="text-secondary">Milestones, hackathon triumphs, and academic contributions</p>
+        <h2 v-html="data.sectionTitle"></h2>
+        <p class="text-secondary">{{ data.sectionSubtitle }}</p>
       </div>
 
       <div class="achievements-grid">
-        <div class="achievement-card glass-card">
-          <div class="achievement-icon">🏆</div>
+        <div v-for="(item, index) in data.items" :key="index" class="achievement-card glass-card">
+          <img v-if="item.image" :src="item.image" :alt="item.title" class="achievement-image" loading="lazy" />
+          <div v-else class="achievement-icon">{{ item.icon || '🏆' }}</div>
           <div class="achievement-content">
-            <h3>SIH 2022 Winner</h3>
-            <p>Winner of Smart India Hackathon 2022, a nationwide initiative to provide students a platform to solve some of the pressing problems we face in our daily lives.</p>
-          </div>
-        </div>
-
-        <div class="achievement-card glass-card">
-          <div class="achievement-icon">🎤</div>
-          <div class="achievement-content">
-            <h3>AI Horizon 2022</h3>
-            <p>Orchestrated AI Horizon 2022, leading the organization and execution of the event focused on Artificial Intelligence advancements.</p>
-          </div>
-        </div>
-
-        <div class="achievement-card glass-card">
-          <div class="achievement-icon">👨‍🏫</div>
-          <div class="achievement-content">
-            <h3>Peer Mentorship</h3>
-            <p>Conducted placement training for batchmates covering Web Development (HTML, CSS, JS), Figma designing, Git/GitHub, and hosting static websites with GitHub Pages.</p>
-          </div>
-        </div>
-
-        <div class="achievement-card glass-card">
-          <div class="achievement-icon">⚖️</div>
-          <div class="achievement-content">
-            <h3>Jury Member</h3>
-            <p>Served as a Jury member for St. Thomas College Internal SIH 2024, evaluating innovative projects and selecting teams for the national level.</p>
+            <h3>{{ item.title }}</h3>
+            <p v-if="item.issuer || item.date" class="achievement-meta">
+              {{ [item.issuer, item.date].filter(Boolean).join(' · ') }}
+            </p>
+            <p>{{ item.description }}</p>
+            <a v-if="item.link" :href="item.link" target="_blank" rel="noopener" class="achievement-link">View credential ↗</a>
           </div>
         </div>
       </div>
@@ -47,8 +28,15 @@
 </template>
 
 <script>
+import { portfolioStore } from "../services/portfolioService";
+
 export default {
   name: "AchievementsSection",
+  computed: {
+    data() {
+      return portfolioStore.achievements;
+    },
+  },
 };
 </script>
 
@@ -78,6 +66,13 @@ export default {
   margin-bottom: var(--spacing-sm);
 }
 
+.achievement-image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
 .achievement-content h3 {
   font-size: 1.25rem;
   margin-bottom: var(--spacing-sm);
@@ -88,6 +83,21 @@ export default {
   font-size: 1rem;
   color: var(--color-text-secondary);
   line-height: 1.6;
+}
+
+.achievement-content .achievement-meta {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-accent-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.achievement-link {
+  display: inline-block;
+  margin-top: var(--spacing-sm);
+  font-size: 0.9rem;
+  color: var(--color-accent-primary);
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {

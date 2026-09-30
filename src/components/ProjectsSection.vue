@@ -1,9 +1,9 @@
 <template>
-  <section id="projects" class="section projects-section">
+  <section v-if="projectsData.visible" id="projects" class="section projects-section">
     <div class="container-wide">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>// 04. ARCHITECTURAL_BUILDS</span>
+          <span>{{ projectsData.badge }}</span>
         </div>
         <h2 v-html="projectsData.sectionTitle"></h2>
         <p class="text-secondary">{{ projectsData.sectionSubtitle }}</p>
@@ -24,6 +24,8 @@
             </div>
             <span class="project-meta-tag">BUILD_{{ String(index + 1).padStart(2, '0') }}</span>
           </div>
+
+          <img v-if="project.image" :src="project.image" :alt="project.title" class="project-cover" loading="lazy" />
 
           <!-- Project Body -->
           <div class="project-content">
@@ -79,39 +81,29 @@
 </template>
 
 <script>
-import portfolioData from "../data/portfolio.json";
-import { portfolioService } from "../services/portfolioService";
+import { portfolioStore } from "../services/portfolioService";
 
 export default {
   name: "ProjectsSection",
-  data() {
-    return {
-      projectsData: portfolioData.projects,
-      apiProjects: []
-    };
-  },
   computed: {
+    projectsData() {
+      return portfolioStore.projects;
+    },
     allProjects() {
-      // If admin has projects configured via API, show them; otherwise show curated portfolio items
-      if (this.apiProjects && this.apiProjects.length > 0) {
-        return this.apiProjects;
-      }
       return this.projectsData.items || [];
     }
-  },
-  mounted() {
-    portfolioService.subscribe((data) => {
-      if (data && data.apiProjects && data.apiProjects.length > 0) {
-        this.apiProjects = data.apiProjects;
-      } else if (data && data.projects) {
-        this.projectsData = data.projects;
-      }
-    });
   }
 };
 </script>
 
 <style scoped>
+.project-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
 .projects-section {
   position: relative;
   z-index: 1;

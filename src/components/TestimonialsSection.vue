@@ -1,12 +1,12 @@
 <template>
-  <section id="testimonials" class="section testimonials-section">
+  <section v-if="sectionData.visible" id="testimonials" class="section testimonials-section">
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>// 06. PEER_ENDORSEMENTS</span>
+          <span>{{ sectionData.badge }}</span>
         </div>
-        <h2>Testimonials & <span class="gradient-text">Feedback</span></h2>
-        <p class="text-secondary">What colleagues, students, and clients say about my platform guidance and security engineering.</p>
+        <h2 v-html="sectionData.sectionTitle"></h2>
+        <p class="text-secondary">{{ sectionData.sectionSubtitle }}</p>
       </div>
 
       <!-- Action Button: Open Testimonial Submission Form -->
@@ -20,8 +20,13 @@
         </button>
       </div>
 
+      <!-- Empty state -->
+      <p v-if="!allTestimonials.length" class="text-secondary testimonials-empty">
+        No endorsements published yet — be the first to share yours.
+      </p>
+
       <!-- Testimonials Grid with 3D Flip Cards -->
-      <div class="testimonials-grid">
+      <div v-else class="testimonials-grid">
         <div
           v-for="(testimonial, index) in allTestimonials"
           :key="index"
@@ -34,13 +39,14 @@
                 <div class="verified-pill font-mono">
                   <span class="verified-check">✓</span> Endorsement
                 </div>
-                <div class="quote-icon">“</div>
+                <div class="quote-icon">"</div>
               </div>
 
               <div class="author-avatar-wrap">
+                <!-- Avatar: show image if URL, initials fallback otherwise -->
                 <img
-                  v-if="testimonial.photo"
-                  :src="testimonial.photo"
+                  v-if="isUrl(testimonial.photo || testimonial.avatar)"
+                  :src="testimonial.photo || testimonial.avatar"
                   :alt="testimonial.name"
                   class="author-avatar"
                 />
@@ -50,7 +56,7 @@
               </div>
 
               <h3 class="author-name">{{ testimonial.name }}</h3>
-              <p class="author-title">{{ testimonial.title }}</p>
+              <p class="author-title">{{ testimonial.title || testimonial.role }}</p>
               <div class="flip-hint font-mono">Hover to read note &rarr;</div>
             </div>
 
@@ -58,9 +64,13 @@
             <div class="testimonial-card-back glass-card">
               <div class="quote-mark font-mono">// VERIFIED_ENDORSEMENT</div>
               <p class="testimonial-text">{{ testimonial.text }}</p>
+              <div class="testimonial-rating">
+                <i v-for="star in (testimonial.rating || 5)" :key="star" class="fas fa-star star-filled"></i>
+                <i v-for="star in (5 - (testimonial.rating || 5))" :key="'empty-' + star" class="far fa-star star-empty"></i>
+              </div>
               <div class="author-info-back">
                 <strong>{{ testimonial.name }}</strong>
-                <span class="back-title">{{ testimonial.title }}</span>
+                <span class="back-title">{{ testimonial.title || testimonial.role }}</span>
               </div>
             </div>
           </div>
@@ -97,6 +107,20 @@
                   class="glass-input"
                 />
               </div>
+
+              <div class="form-group">
+                <label>Your Email * <span class="field-note">(private, never shown)</span></label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="e.g. sarah@company.com"
+                  class="glass-input"
+                />
+              </div>
+
+              <!-- Honeypot: humans never see or fill this field -->
+              <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field" />
 
               <div class="form-row">
                 <div class="form-group">
@@ -183,7 +207,7 @@
 </template>
 
 <script>
-import { portfolioService } from "../services/portfolioService";
+import { portfolioStore } from "../services/portfolioService";
 
 export default {
   name: 'TestimonialsSection',
@@ -191,51 +215,37 @@ export default {
     return {
       showModal: false,
       selectedFileName: '',
-      filePreviewUrl: null,
-      apiTestimonials: [],
-      defaultTestimonials: [
-        {
-          name: "Rahul M.",
-          title: "Mentee & Software Engineer",
-          text: "The guidance I received on platform engineering and backend scalability was invaluable. Abishek helped me master enterprise security best practices that completely accelerated my career.",
-          rating: 5
-        },
-        {
-          name: "Sarah J.",
-          title: "Startup Founder & Advisor Client",
-          text: "As a strategic advisor, Abishek's insights into password vault integration and automated identity synchronization transformed our security architecture. Highly recommended.",
-          rating: 5
-        },
-        {
-          name: "Vikram S.",
-          title: "Computer Science Student & SIH Contender",
-          text: "Mentorship sessions were a game-changer. The deep dive into DevOps automation, Terraform plugins, and active directory workflows gave me a decisive edge in the industry.",
-          rating: 5
-        }
-      ]
+      filePreviewUrl: null
     };
   },
   computed: {
+    sectionData() {
+      return portfolioStore.testimonials;
+    },
     allTestimonials() {
-      if (this.apiTestimonials && this.apiTestimonials.length > 0) {
-        return this.apiTestimonials;
-      }
-      return this.defaultTestimonials;
+      return this.sectionData.items || [];
     }
   },
   mounted() {
-    portfolioService.subscribe((data) => {
-      if (data && data.apiTestimonials && data.apiTestimonials.length > 0) {
-        this.apiTestimonials = data.apiTestimonials;
-      }
-    });
+    // Emitted by portfolio_manager.js after the server accepts the testimonial.
+    this.onSubmitted = (e) => {
+      if (!e.target.matches || !e.target.matches('form[data-abishek-testimonial]')) return;
+      this.clearSelectedFile();
+      setTimeout(() => this.closeModal(), 2500);
+    };
+    document.addEventListener('portfolio:submitted', this.onSubmitted);
   },
   beforeUnmount() {
+    document.removeEventListener('portfolio:submitted', this.onSubmitted);
     if (this.filePreviewUrl) {
       URL.revokeObjectURL(this.filePreviewUrl);
     }
   },
   methods: {
+    isUrl(value) {
+      if (!value) return false;
+      return /^(https?:\/\/|\/|data:image\/)/.test(value);
+    },
     getInitials(name) {
       if (!name) return 'A';
       return name
@@ -276,6 +286,25 @@ export default {
 </script>
 
 <style scoped>
+.testimonials-empty {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.field-note {
+  font-weight: 400;
+  opacity: 0.6;
+  font-size: 0.8em;
+}
+
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
 .testimonials-section {
   position: relative;
   z-index: 1;
@@ -455,6 +484,22 @@ export default {
   flex-grow: 1;
 }
 
+.testimonial-rating {
+  display: flex;
+  gap: 0.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.testimonial-rating .star-filled {
+  color: #facc15;
+  font-size: 0.85rem;
+}
+
+.testimonial-rating .star-empty {
+  color: rgba(250, 204, 21, 0.3);
+  font-size: 0.85rem;
+}
+
 .author-info-back {
   width: 100%;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -471,6 +516,59 @@ export default {
 .back-title {
   font-size: 0.8rem;
   color: var(--color-text-muted);
+}
+
+/* Loading spinner */
+.flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
+.border-t-2 {
+  border-top-width: 2px;
+  border-top-style: solid;
+}
+
+.border-b-2 {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+.border-blue-400 {
+  border-color: #60a5fa;
 }
 
 /* Modal */
