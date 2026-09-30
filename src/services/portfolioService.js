@@ -3,7 +3,7 @@
  *
  * Personal content (profile, contacts, experience, skills, projects, ...) comes from the
  * admin portal through the Portfolio Manager SDK (admin.abishek.in/api/portfolio_manager.js,
- * loaded in index.html). The SDK fetches one bundle with everything — images included as
+ * added to index.html by vite.config.js with this site's API key, VITE_PORTFOLIO_KEY). The SDK fetches one bundle with everything — images included as
  * base64 data URIs — and keeps it in sessionStorage, so later page loads in the same session
  * render instantly without a network round-trip. This store:
  *   1. hydrates synchronously from that sessionStorage cache (if present),
@@ -16,7 +16,9 @@ import { reactive } from 'vue';
 import localData from '../data/portfolio.json';
 import * as defaults from '../data/defaults.js';
 
-const SDK_CACHE_KEY = 'pm_portfolio_cache_v2';
+// The SDK keeps one cache per API key (same name as in portfolio_manager.js).
+const API_KEY = (import.meta.env.VITE_PORTFOLIO_KEY || '').trim();
+const SDK_CACHE_KEY = 'pm_portfolio_cache_v2' + (API_KEY ? '_' + API_KEY.slice(-12) : '');
 
 const JOB_TYPE_LABELS = { full_time: 'Full Time', part_time: 'Part Time', internship: 'Internship', freelance: 'Freelance', contract: 'Contract' };
 

@@ -21,11 +21,7 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Sora:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Admin Portfolio Manager SDK. Preconnects open the connections early so the
-         content check on each page load returns fast (script = normal, fetch = CORS). -->
-    <link rel="preconnect" href="%VITE_ADMIN_URL%" />
-    <link rel="preconnect" href="%VITE_ADMIN_URL%" crossorigin />
-    <script src="%VITE_ADMIN_URL%/api/portfolio_manager.js" async></script>
+    <!-- The Portfolio Manager SDK (with this site's API key) is added by vite.config.js. -->
     <script>
       (function () {
         const savedTheme = localStorage.getItem("theme") || "ocean";

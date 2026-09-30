@@ -24,6 +24,17 @@ npm run build
 
 The development server will start at `http://localhost:5173`
 
+## 🔌 Content from the admin
+
+All personal content comes from the Portfolio Manager admin (`admin.abishek.in`). Copy `.env.example` to `.env` and set:
+
+| Variable | Value |
+|---|---|
+| `VITE_ADMIN_URL` | The admin server, e.g. `https://admin.abishek.in` |
+| `VITE_PORTFOLIO_KEY` | This site's API key from the admin's **API keys & integration** page (`pk_…`). Empty = the admin's default site |
+
+`vite.config.js` adds the SDK script (`<script src=".../api/portfolio_manager.js" data-key="pk_…">`) to `index.html`. The SDK loads the content, sends analytics, and handles the contact and testimonial forms for the account of that key. Rotating the key in the admin means updating `.env` and rebuilding.
+
 ## ✨ Features
 
 - **Neo-Black Theme**: Deep black backgrounds with elegant gray accents
