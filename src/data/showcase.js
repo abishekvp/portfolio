@@ -23,15 +23,15 @@ export const products = [
     tags: ['TypeScript', 'React', 'Express', 'Prisma', 'PostgreSQL'],
     link: 'https://finance.abishek.in',
   },
-  {
-    id: 'credentials',
-    title: 'Credentials',
-    tagline: 'Zero-knowledge password vault',
-    description:
-      'Credentials are encrypted on the user’s device before they are sent, so the server only ever holds ciphertext. Available as a web vault, a browser extension for autofill and a mobile app.',
-    tags: ['Node.js', 'React', 'Client-side encryption', 'Browser extension', 'Mobile'],
-    link: 'https://credentials.abishek.in',
-  },
+  // {
+  //   id: 'credentials',
+  //   title: 'Credentials',
+  //   tagline: 'Zero-knowledge password vault',
+  //   description:
+  //     'Credentials are encrypted on the user’s device before they are sent, so the server only ever holds ciphertext. Available as a web vault, a browser extension for autofill and a mobile app.',
+  //   tags: ['Node.js', 'React', 'Client-side encryption', 'Browser extension', 'Mobile'],
+  //   link: 'https://credentials.abishek.in',
+  // },
   {
     id: 'subscription-manager',
     title: 'Service Subscription Manager',
