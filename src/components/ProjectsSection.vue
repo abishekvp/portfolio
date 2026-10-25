@@ -9,55 +9,55 @@
         <p class="text-secondary">{{ projectsData.sectionSubtitle }}</p>
       </div>
 
-      <div class="products-grid">
-        <article
-          v-for="product in products"
-          :key="product.id"
-          class="product-card glass-card"
-        >
-          <header class="product-head">
-            <span :class="['product-status', product.link ? 'is-live' : 'is-soon']">
-              <span class="status-dot"></span>
-              {{ product.link ? 'Live' : 'Launching soon' }}
-            </span>
-            <span v-if="product.link" class="product-host font-mono">{{ host(product.link) }}</span>
-          </header>
+      <div v-for="group in groups" :key="group.group" class="launch-group">
+        <h3 class="group-heading font-mono">{{ group.group }}</h3>
 
-          <h3 class="product-title">{{ product.title }}</h3>
-          <p class="product-tagline">{{ product.tagline }}</p>
-          <p class="product-desc">{{ product.description }}</p>
+        <div class="products-grid">
+          <article
+            v-for="item in group.items"
+            :key="item.id"
+            class="product-card glass-card"
+          >
+            <header class="product-head">
+              <div class="head-badges">
+                <span :class="['product-status', item.isLive ? 'is-live' : 'is-shipped']">
+                  <span class="status-dot"></span>
+                  {{ item.status }}
+                </span>
+                <span v-if="item.kind" class="product-kind font-mono">{{ item.kind }}</span>
+              </div>
+              <span v-if="item.link" class="product-host font-mono">{{ host(item.link) }}</span>
+            </header>
 
-          <div v-if="product.tags && product.tags.length" class="product-tags">
-            <span v-for="tag in product.tags" :key="tag" class="tag">{{ tag }}</span>
-          </div>
+            <h4 class="product-title">{{ item.title }}</h4>
+            <p class="product-tagline">{{ item.tagline }}</p>
+            <p class="product-desc">{{ item.description }}</p>
 
-          <div class="product-links">
-            <a
-              v-if="product.link"
-              :href="product.link"
-              target="_blank"
-              rel="noopener"
-              class="product-link-btn"
-              :data-track="`product:${product.id}`"
-            >
-              <span>Open live app</span>
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-            </a>
-            <a
-              v-if="product.github"
-              :href="product.github"
-              target="_blank"
-              rel="noopener"
-              class="product-link-btn is-secondary"
-            >
-              Source code
-            </a>
-          </div>
-        </article>
+            <ul v-if="item.highlights && item.highlights.length" class="product-highlights">
+              <li v-for="(hl, i) in item.highlights" :key="i">
+                <span class="hl-bullet">▸</span>
+                <span>{{ hl }}</span>
+              </li>
+            </ul>
+
+            <div v-if="item.link" class="product-links">
+              <a
+                :href="item.link"
+                target="_blank"
+                rel="noopener"
+                class="product-link-btn"
+                :data-track="`product:${item.id}`"
+              >
+                <span>{{ item.linkLabel || 'Visit Live Site' }}</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </section>
@@ -72,14 +72,14 @@ export default {
     projectsData() {
       return portfolioStore.projects;
     },
-    products() {
-      return this.projectsData.items || [];
+    groups() {
+      return this.projectsData.groups || [];
     },
   },
   methods: {
     host(url) {
       try {
-        return new URL(url).host;
+        return new URL(url).host.replace(/^www\./, '');
       } catch {
         return url;
       }
@@ -100,6 +100,29 @@ export default {
 
 .font-mono {
   font-family: var(--font-mono);
+}
+
+.launch-group + .launch-group {
+  margin-top: var(--spacing-2xl);
+}
+
+.group-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-tertiary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.group-heading::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .products-grid {
@@ -127,8 +150,16 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   margin-bottom: 1.1rem;
+}
+
+.head-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .product-status {
@@ -149,10 +180,19 @@ export default {
   background: rgba(16, 185, 129, 0.1);
 }
 
-.product-status.is-soon {
-  color: #fbbf24;
-  border-color: rgba(251, 191, 36, 0.35);
-  background: rgba(245, 158, 11, 0.1);
+.product-status.is-shipped {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.35);
+  background: rgba(14, 165, 233, 0.1);
+}
+
+.product-kind {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
 }
 
 .status-dot {
@@ -171,51 +211,58 @@ export default {
 }
 
 .product-title {
-  font-size: 1.45rem;
+  font-size: 1.38rem;
   color: var(--color-text-primary);
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .product-tagline {
   margin-top: 0.3rem;
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   font-weight: 600;
   color: var(--color-accent-tertiary);
 }
 
 .product-desc {
-  margin: 0.9rem 0 1.25rem;
-  font-size: 0.97rem;
+  margin: 0.85rem 0 1rem;
+  font-size: 0.95rem;
   line-height: 1.65;
   color: var(--color-text-secondary);
+}
+
+.product-highlights {
+  list-style: none;
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.25rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
   flex-grow: 1;
 }
 
-.product-tags {
+.product-highlights li {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-bottom: 1.4rem;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
 }
 
-.tag {
-  padding: 0.22rem 0.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  color: var(--color-accent-tertiary);
+.hl-bullet {
+  color: var(--color-accent-primary);
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 .product-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-}
-
-.product-links:empty {
-  display: none;
+  margin-top: auto;
 }
 
 .product-link-btn {
@@ -236,12 +283,6 @@ export default {
 .product-link-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px var(--btn-shadow-hover);
-}
-
-.product-link-btn.is-secondary {
-  color: var(--color-text-primary);
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--glass-border);
 }
 
 @media (max-width: 900px) {

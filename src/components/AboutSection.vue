@@ -10,13 +10,13 @@
       </div>
 
       <div class="about-content">
-        <!-- Left Column: Core Competencies Box -->
+        <!-- Left Column: Engineering & Advisory Pillars Box -->
         <div class="about-card-left glass-card">
           <div class="terminal-dots mb-3">
             <span class="terminal-dot red"></span>
             <span class="terminal-dot yellow"></span>
             <span class="terminal-dot green"></span>
-            <span class="terminal-tag ml-auto">CORE_STACK.yaml</span>
+            <span class="terminal-tag ml-auto">BUILDER_PILLARS.md</span>
           </div>
 
           <h3 class="competency-title">{{ aboutData.whatIDo.title }}</h3>

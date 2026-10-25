@@ -30,7 +30,7 @@
               <div>
                 <div class="job-status-tag">
                   <span class="status-marker">●</span>
-                  <span>{{ exp.is_current ? 'CURRENT POSITION' : 'PAST POSITION' }}</span>
+                  <span>{{ exp.roleTag || 'SYSTEMS & LEADERSHIP' }}</span>
                 </div>
                 <h3>{{ exp.title || exp.job_title }}</h3>
                 <h4 class="company gradient-text">
@@ -51,10 +51,6 @@
               <div class="timeline-meta">
                 <div class="flex items-center gap-2 flex-wrap">
                   <span class="period font-mono">{{ exp.period || formatPeriod(exp.start_date, exp.end_date, exp.is_current) }}</span>
-                  <span v-if="exp.jobType" 
-                        :class="['px-2 py-0.5 text-xs font-medium rounded-full', jobTypeBadgeClass(exp.jobType)]">
-                    {{ formatJobType(exp.jobType) }}
-                  </span>
                 </div>
                 <a
                   v-if="exp.companyUrl"
@@ -63,18 +59,12 @@
                   rel="noopener noreferrer"
                   class="period site-btn"
                 >
-                  Visit Site
+                  Visit Organization ↗
                 </a>
               </div>
             </div>
 
             <p class="role-desc">{{ exp.description }}</p>
-
-            <p v-if="exp.technologies && exp.technologies.length" class="tech-line text-sm" style="color: var(--color-accent-primary); margin-bottom: var(--spacing-md); font-family: var(--font-mono); font-size: 0.85rem;">
-              <span v-for="(tech, i) in exp.technologies" :key="tech">
-                {{ tech }}<span v-if="i < exp.technologies.length - 1" class="mx-2" style="color: var(--color-text-secondary); opacity: 0.5;">·</span>
-              </span>
-            </p>
 
             <div class="achievements" v-if="exp.achievements && exp.achievements.length">
               <div
@@ -112,26 +102,6 @@ export default {
       const s = new Date(start).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       const e = current ? 'Present' : (end ? new Date(end).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '');
       return `${s} – ${e}`;
-    },
-    formatJobType(type) {
-      const labels = {
-        'full_time': 'Full Time',
-        'part_time': 'Part Time',
-        'internship': 'Internship',
-        'freelance': 'Freelance',
-        'contract': 'Contract'
-      }
-      return labels[type] || type
-    },
-    jobTypeBadgeClass(type) {
-      const classes = {
-        'full_time': 'bg-green-500/20 text-green-300 border border-green-500/30',
-        'part_time': 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30',
-        'internship': 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
-        'freelance': 'bg-orange-500/20 text-orange-300 border border-orange-500/30',
-        'contract': 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-      }
-      return classes[type] || 'bg-gray-500/20 text-gray-300 border border-gray-500/30'
     }
   }
 };

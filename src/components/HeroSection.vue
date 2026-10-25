@@ -41,17 +41,11 @@
               {{ hero.primaryCta.label }}
             </a>
             <a
-              :href="store.resumeUrl"
-              :download="store.resumeFilename"
-              data-track="resume"
-              class="btn btn-glass resume-cta"
+              v-if="hero.secondaryCta"
+              :href="hero.secondaryCta.href"
+              class="btn btn-glass"
             >
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              <span>{{ hero.resumeLabel }}</span>
+              <span>{{ hero.secondaryCta.label }}</span>
             </a>
             <a href="#terminal-section" class="btn btn-glass cli-cta">
               <span>{{ hero.terminalLabel }}</span>

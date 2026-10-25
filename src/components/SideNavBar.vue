@@ -12,7 +12,7 @@
       <a href="#home" class="dock-brand" title="Abishek VP — Home" @click="handleNavClick('home')">
         <span class="brand-badge">A</span>
         <span class="dock-label brand-title">
-          Abishek <span class="gradient-text">VP</span>
+          {{ brandFirst }} <span class="gradient-text">{{ brandAccent }}</span>
         </span>
       </a>
 
@@ -86,25 +86,6 @@
           </svg>
           <span class="dock-label">Terminal CLI</span>
         </button>
-
-        <!-- Resume Download with data-track="resume" for admin silent tracking -->
-        <a
-          :href="resumeUrl"
-          :download="resumeFilename"
-          data-track="resume"
-          data-analytics="resume_download"
-          class="dock-action-btn resume-btn"
-          title="Download Resume (PDF)"
-          aria-label="Download Resume"
-          @click="handleActionClick()"
-        >
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span class="dock-label">Download CV</span>
-        </a>
       </div>
     </nav>
   </aside>
@@ -142,37 +123,32 @@ export default {
         },
         {
           id: 'about',
-          label: 'About',
+          label: 'Philosophy',
           iconPath: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'
         },
         {
-          id: 'experience',
-          label: 'Experience',
-          iconPath: 'M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'
-        },
-        {
           id: 'projects',
-          label: 'Products',
+          label: 'Launched',
           iconPath: 'M12 2 2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5'
         },
         {
-          id: 'skills',
-          label: 'Skills',
-          iconPath: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'
+          id: 'experience',
+          label: 'Enterprise',
+          iconPath: 'M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'
         },
         {
-          id: 'education',
-          label: 'Education',
-          iconPath: 'M22 10 12 5 2 10l10 5 10-5z M6 12v5c3 3 9 3 12 0v-5'
+          id: 'mentorship',
+          label: 'Mentorship',
+          iconPath: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75'
         },
         {
           id: 'events',
-          label: 'Events',
+          label: 'Speaking',
           iconPath: 'M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z M19 10v2a7 7 0 0 1-14 0v-2 M12 19v3'
         },
         {
           id: 'testimonials',
-          label: 'Testimonials',
+          label: 'Endorsements',
           iconPath: 'M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z'
         },
         {
@@ -189,11 +165,11 @@ export default {
     };
   },
   computed: {
-    resumeUrl() {
-      return portfolioStore.resumeUrl;
+    brandFirst() {
+      return portfolioStore.hero?.nameFirst || 'Abishek';
     },
-    resumeFilename() {
-      return portfolioStore.resumeFilename;
+    brandAccent() {
+      return portfolioStore.hero?.nameAccent || 'VP';
     },
     currentThemeColor() {
       const t = this.themes.find(th => th.id === this.currentTheme);

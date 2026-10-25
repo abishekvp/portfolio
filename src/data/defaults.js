@@ -1,40 +1,39 @@
-// Offline fallbacks for sections that are not in portfolio.json. Used only when the
-// admin API (admin.abishek.in) cannot be reached and nothing is cached in the session.
+// Default copy and configuration for sections.
 import heroImage from '../assets/img/abi.jpg';
 
 export const hero = {
-  badge: '// SOFTWARE ENGINEER · IDENTITY & PLATFORM SECURITY',
+  badge: '// SOFTWARE ENGINEER · PRODUCT BUILDER · MENTOR',
   nameFirst: 'Abishek',
   nameAccent: 'VP',
-  tagline: 'I build the identity, access and secrets infrastructure enterprises run on.',
+  tagline: 'Architecting enterprise security systems, launching live software products, and mentoring builders.',
   description:
-    'At Securden I engineer privileged access management, self-service password reset and DevOps secrets integrations for enterprise IT teams. Outside work I design, ship and operate my own software products end to end.',
+    'I engineer privileged access, identity, and secrets infrastructure at Securden, design and operate my own live SaaS and web platforms end to end, and mentor developers and student teams from architecture to launch.',
   highlights: [
-    { icon: '🏢', value: 'Since 2020', label: 'Shipping production software' },
-    { icon: '🚀', value: '4 Products', label: 'Designed, built and run' },
-    { icon: '🎤', value: 'Speaker & Jury', label: 'Engineering colleges' },
+    { icon: '🚀', value: 'Products & Sites', label: 'Designed, launched & operating' },
+    { icon: '🔐', value: 'Enterprise PAM', label: 'Identity, access & CI/CD secrets' },
+    { icon: '🧭', value: 'Mentor & Jury', label: 'Guiding devs & hackathons' },
   ],
-  primaryCta: { label: 'Explore My Products', href: '#projects' },
-  resumeLabel: 'Download Resume',
+  primaryCta: { label: 'Explore Launched Products & Sites', href: '#projects' },
+  secondaryCta: { label: 'Mentorship & Guided Builds', href: '#mentorship' },
   terminalLabel: 'Launch Terminal CLI',
   portrait: heroImage,
-  portraitTag: 'Software Engineer · Securden',
+  portraitTag: 'Software Engineer · Builder · Mentor',
   floatingBadges: [
-    { icon: '🔐', title: 'Identity & Access', text: 'PAM · SSPR · AD · Entra ID' },
-    { icon: '⚙️', title: 'Secrets in CI/CD', text: 'Terraform · Jenkins · Ansible' },
+    { icon: '🚀', title: 'Products & Sites', text: 'SaaS · Headless CMS · Client Platforms' },
+    { icon: '🧭', title: 'Mentorship & Advisory', text: 'Team Mentor · Speaker · Jury' },
   ],
 };
 
-/** Short facts under the About bio (kept distinct from the hero numbers). */
+/** Short facts under the About bio (no job-seeker stack lists). */
 export const aboutFacts = [
-  { label: 'Currently', value: 'Securden, Chennai' },
-  { label: 'Domain', value: 'IAM · PAM · DevSecOps' },
-  { label: 'Works in', value: 'Python · Node.js · Java' },
+  { label: 'Focus', value: 'Products · Security · Mentorship' },
+  { label: 'Shipping Since', value: '2020 — Present' },
+  { label: 'Base', value: 'Chennai, India' },
 ];
 
 export const testimonials = {
-  badge: '// 07. PEER_ENDORSEMENTS',
+  badge: '// 06. ENDORSEMENTS',
   sectionTitle: 'What People <span class="gradient-text">Say</span>',
-  sectionSubtitle: 'Colleagues, clients and students I have worked with.',
+  sectionSubtitle: 'Colleagues, founders, clients, and mentees I have collaborated with.',
   items: [],
 };

@@ -1,170 +1,82 @@
 {
   "about": {
-    "sectionTitle": "About <span class=\"gradient-text\">Me</span>",
-    "sectionSubtitle": "How I think about building software",
+    "sectionTitle": "How I <span class=\"gradient-text\">Build &amp; Lead</span>",
+    "sectionSubtitle": "Engineering philosophy, product ownership, and technical mentorship",
     "whatIDo": {
-      "title": "Core Expertise",
+      "title": "Engineering & Advisory Pillars",
       "items": [
-        "Identity & Access: Privileged access, Just-In-Time approvals and self-service password reset across Active Directory, Entra ID and Google Workspace.",
-        "Secrets in Delivery Pipelines: Published Terraform, Jenkins, Ansible, Chef and Puppet plugins that let pipelines use secrets without storing them.",
-        "Backend Architecture: APIs and services designed for high throughput, clear failure handling and auditability.",
-        "Product Engineering: Taking products from idea to production and running them: data model, UI, deployment and support."
+        "End-to-End Product Ownership: Taking products and web platforms from initial concept to live production—architecture, interface design, deployment, and continuous operation.",
+        "Enterprise Identity & Access Architecture: Designing privileged access management, Just-In-Time approval workflows, and multi-directory self-service systems built for enterprise scale.",
+        "DevSecOps & Workflow Automation: Publishing official CI/CD secrets plugins and building automation platforms that eliminate repetitive manual operations.",
+        "Developer Mentorship & Project Guidance: Coaching junior engineers, evaluating hackathon prototypes as a jury member, and guiding student and product teams through complex builds."
       ]
     },
     "bio": {
-      "title": "Software Engineer",
+      "title": "Software Engineer · Product Builder · Mentor",
       "paragraphs": [
-        "I design and build enterprise security software: the systems that decide who can reach which credential, when, and with whose approval. At Securden that means privileged access workflows, password self-service across multiple directories, and integrations that bring secrets management into CI/CD.",
-        "I care about software that holds up in production: clear architecture, careful failure handling and interfaces people can use without a manual. I hold my own products to the same standard, from a portfolio CMS to a zero-knowledge credential manager.",
-        "I started building software for clients in 2020 and still make time for students, as a hackathon jury member and guest lecturer."
+        "I design and ship software that holds up in the real world. At Securden, I architect the privileged access, password self-service, and CI/CD secrets infrastructure that enterprise organizations trust to protect their most sensitive credentials across Active Directory, Microsoft Entra ID, and Google Workspace.",
+        "Alongside enterprise security engineering, I have been launching and operating my own software products and client platforms since 2020—including a multi-tenant headless CMS, a collaborative household finance platform, commercial brand websites, and institutional management portals.",
+        "Just as important to me is paying that experience forward. I mentor junior developers in production environments, guide student innovators through national hackathons and flagship builds, and speak at engineering colleges on building resilient, concurrent systems."
       ]
     }
   },
-  "skills": {
-    "sectionTitle": "Technical <span class=\"gradient-text\">Stack</span>",
-    "sectionSubtitle": "What I build with",
-    "categories": [
-      {
-        "name": "Backend & Platform",
-        "icon": "⚙️",
-        "skills": [
-          {
-            "name": "Python / Django",
-            "learned": "",
-            "implemented": ""
-          },
-          {
-            "name": "API Design",
-            "learned": "",
-            "implemented": ""
-          },
-          {
-            "name": "Database (SQL, PostgreSQL, MongoDB)",
-            "learned": "",
-            "implemented": ""
-          },
-          {
-            "name": "Web Automation (Selenium, BS4, Playwright)",
-            "learned": "",
-            "implemented": ""
-          }
-        ]
-      },
-      {
-        "name": "Identity Providers",
-        "icon": "🛡️",
-        "skills": [
-          {
-            "name": "Active Directory",
-            "learned": "",
-            "implemented": ""
-          },
-          {
-            "name": "Entra ID",
-            "learned": "",
-            "implemented": ""
-          },
-          {
-            "name": "Google Workspace",
-            "learned": "",
-            "implemented": ""
-          }
-        ]
-      },
-      {
-        "name": "DevOps Tools",
-        "icon": "🔧",
-        "skills": [
-          {
-            "name": "Ansible, Jenkins, Terraform, Chef, Puppet",
-            "learned": "",
-            "implemented": "Built Plugin and Published"
-          }
-        ]
-      },
-      {
-        "name": "Other Stacks",
-        "icon": "💻",
-        "skills": [
-          {
-            "name": "Java, C, C++",
-            "learned": "",
-            "implemented": ""
-          },
-          {
-            "name": "React, Ember, JavaScript",
-            "learned": "",
-            "implemented": ""
-          },
-          {
-            "name": "HTML, CSS",
-            "learned": "",
-            "implemented": ""
-          }
-        ]
-      }
-    ]
-  },
   "experience": {
-    "sectionTitle": "Professional <span class=\"gradient-text\">Journey</span>",
-    "sectionSubtitle": "Teams I have built software with",
+    "sectionTitle": "Enterprise Systems &amp; <span class=\"gradient-text\">Leadership</span>",
+    "sectionSubtitle": "Mission-critical platforms, commercial launches, and engineering teams I have built with",
     "jobs": [
       {
-        "title": "Software Engineer",
+        "title": "Enterprise Identity, PAM & DevSecOps Infrastructure",
         "company": "Securden",
         "companyUrl": "https://www.securden.com/",
-        "period": "March 2024 – Present",
-        "description": "PAM • AD/Azure/Google Workspace • DevOps Integrations • Password Self-Service • API",
+        "period": "2024 – Present",
+        "roleTag": "CORE PLATFORM ARCHITECTURE",
+        "description": "Privileged Access Management · Multi-Directory Identity · CI/CD Secrets Ecosystem",
         "achievements": [
-          "Architected and built an enterprise-grade Self-Service Password Reset (SSPR) platform with multi-directory support, focusing on high availability and secure architecture.",
-          "Engineered robust Password Vault workflows, implementing Just-In-Time (JIT) access, complex approval chains, and secure, policy-based access controls.",
-          "Developed secure architectural integrations for major identity providers, including Azure AD, Google Workspace, and Active Directory, ensuring seamless and safe data synchronization.",
-          "Built and maintained custom infrastructure plugins for Terraform, Jenkins, Ansible, Chef, and Puppet to enable secure CRUD operations on secrets within CI/CD pipelines.",
-          "Enhanced secure browser extension, creating encrypted and user-friendly credential autofill ecosystem."
-        ],
-        "is_current": true,
-        "jobType": "full_time"
+          "Architected and shipped an enterprise Self-Service Password Reset (SSPR) platform from the ground up with multi-directory support and high-availability design.",
+          "Engineered core Password Vault workflows including Just-In-Time (JIT) privileged access, multi-stage approval engines, and policy-driven access controls.",
+          "Built deep identity provider integrations across Active Directory, Microsoft Entra ID, and Google Workspace for seamless directory synchronization and lifecycle management.",
+          "Built and published official secrets management plugins for CI/CD and infrastructure automation pipelines, enabling zero-plaintext credential retrieval.",
+          "Upgraded the encrypted browser autofill extension ecosystem and created custom bundling tooling to eliminate external runtime dependencies."
+        ]
       },
       {
-        "title": "Software Engineer",
+        "title": "SaaS Platform Architecture, Web Rebuilds & Developer Mentorship",
         "company": "DAAT",
         "companyUrl": "https://daat.group/",
-        "period": "May 2022 – Feb 2024",
-        "description": "Backend & Platform Engineering",
+        "period": "2022 – 2024",
+        "roleTag": "PLATFORM DELIVERY & MENTORSHIP",
+        "description": "SaaS Platforms · Legacy Website Modernization · Engineering Mentorship",
         "achievements": [
-          "Mentored junior developers to deliver scalable backend solutions, successfully navigating complex technical requirements across diverse tech stacks.",
-          "Designed and implemented backend operational workflows, delivering production-ready features for a high-traffic SaaS platform and a Student Management System.",
-          "Spearheaded the rebuilding of legacy software and websites, with minimal resources to significantly improve overall system efficiency and modernizing the UI/UX.",
-          "Architected and single-handedly developed a custom internal project management tool to streamline organizational workflows, task tracking, and team collaboration."
-        ],
-        "is_current": false,
-        "jobType": "part_time"
+          "Led and mentored junior developers to deliver scalable production systems, instilling strong architectural practices and hands-on ownership.",
+          "Architected and co-built a custom internal project management platform alongside mentees, replacing third-party tools while providing real-world product delivery experience.",
+          "Spearheaded the ground-up rebuild and launch of legacy client software and websites, modernizing the user experience and operational reliability.",
+          "Designed and shipped core operational workflows for a high-traffic SaaS platform and a comprehensive Student Management System."
+        ]
       },
       {
-        "title": "Software Engineer",
+        "title": "Client Web Platforms & Brand Website Launches",
         "company": "ROOK",
         "companyUrl": "https://rookhq.com/",
-        "period": "Aug 2020 – Apr 2022",
-        "description": "Web Application Development",
+        "period": "2020 – 2022",
+        "roleTag": "PRODUCT & WEB LAUNCHES",
+        "description": "Commercial Web Applications · Brand Sites · Product Discovery",
         "achievements": [
-          "Developed full-stack application modules using Python, Django, JavaScript, and SQL, driving features from market research to production deployment.",
-          "Delivered robust, production-ready backend features for consumer-facing web applications.",
-          "Rebuilt and modernized brand software interfaces, improving user experience and application performance."
-        ],
-        "is_current": false,
-        "jobType": "part_time"
+          "Drove consumer-facing web applications and custom client platforms from initial market feasibility and product scoping through live production launch.",
+          "Built, modernized, and launched multiple brand websites and digital interfaces with a focus on performance and user experience.",
+          "Delivered tailored software solutions for clients across education and commercial sectors."
+        ]
       }
     ]
   },
   "projects": {
-    "sectionTitle": "Products I <span class=\"gradient-text\">Build &amp; Run</span>",
-    "sectionSubtitle": "Live software I designed, built and operate end to end"
+    "sectionTitle": "Products &amp; Sites <span class=\"gradient-text\">Launched</span>",
+    "sectionSubtitle": "Live SaaS platforms, web applications, and client websites I have designed, built, and shipped"
   },
   "contact": {
-    "sectionTitle": "Let&rsquo;s <span class=\"gradient-text\">Talk</span>",
-    "sectionSubtitle": "Products, platforms and security architecture",
-    "intro": "Building a product, scaling a platform or securing one?",
-    "roles": "I am always glad to talk through architecture, identity and access design, or what it takes to get a product from idea to production.",
+    "sectionTitle": "Let&rsquo;s <span class=\"gradient-text\">Connect</span>",
+    "sectionSubtitle": "Product collaboration, architecture advisory, mentorship & speaking",
+    "intro": "Launching a product, scaling a platform, or inviting a speaker & mentor?",
+    "roles": "Whether you want to talk through product & security architecture, collaborate on a software build, or invite me for a guest lecture, hackathon jury, or mentorship session—I would love to hear from you.",
     "methods": [
       {
         "name": "Email",

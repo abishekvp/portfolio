@@ -29,8 +29,8 @@
  \_| |_(_)\____/ \___/\____/\_| |_|____/\_| \_/
         </pre>
         <p class="welcome-text">
-          <strong class="text-accent">Abishek VP</strong> — Software Engineer · Identity, Access &amp; Platform Security<br />
-          Securden • Builder of Portfolio Manager, Family Finance &amp; Credentials.
+          <strong class="text-accent">{{ store.profile.name }}</strong> — {{ store.hero.tagline }}<br />
+          {{ store.terminal.welcomeSubtitle }}
         </p>
         <p class="welcome-hint">
           Type <span class="cmd-pill">help</span> to view all commands or click the shortcut chips below.
@@ -86,6 +86,13 @@
 <script>
 import { portfolioStore } from '../services/portfolioService';
 
+function esc(str = '') {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 export default {
   name: 'InteractiveTerminal',
   props: {
@@ -102,20 +109,25 @@ export default {
       history: [
         {
           command: 'whoami',
-          output: `<span class="text-cyan">abishek.vp</span> &bull; Software Engineer at Securden, building identity, access and secrets infrastructure.`
+          output: `<span class="text-cyan">abishek.vp</span> &bull; Software Engineer, Product Builder &amp; Mentor — architecting enterprise identity &amp; PAM systems, launching SaaS platforms, and guiding builders.`
         }
       ],
       quickChips: [
         { label: 'help', cmd: 'help' },
-        { label: 'about', cmd: 'about' },
-        { label: 'skills', cmd: 'skills' },
-        { label: 'experience', cmd: 'experience' },
-        { label: 'products', cmd: 'products' },
-        { label: 'events', cmd: 'events' },
-        { label: 'resume.pdf', cmd: 'resume' },
+        { label: 'philosophy', cmd: 'philosophy' },
+        { label: 'launched', cmd: 'launched' },
+        { label: 'enterprise', cmd: 'enterprise' },
+        { label: 'mentorship', cmd: 'mentorship' },
+        { label: 'speaking', cmd: 'speaking' },
+        { label: 'contact', cmd: 'contact' },
         { label: 'clear', cmd: 'clear' }
       ]
     };
+  },
+  computed: {
+    store() {
+      return portfolioStore;
+    }
   },
   methods: {
     focusInput() {
@@ -154,91 +166,100 @@ export default {
           return `
 <div class="cmd-table">
   <div><span class="cmd-name">help</span> — Display this command reference guide</div>
-  <div><span class="cmd-name">about</span> — Who I am and what I focus on</div>
-  <div><span class="cmd-name">experience</span> — Securden, DAAT and ROOK</div>
-  <div><span class="cmd-name">products</span> — Live products I build and run</div>
-  <div><span class="cmd-name">skills</span> — Technical stack</div>
-  <div><span class="cmd-name">education</span> — Degree, internships and college projects</div>
-  <div><span class="cmd-name">events</span> — Guest lectures and hackathon juries</div>
-  <div><span class="cmd-name">resume</span> — Download my resume (PDF)</div>
-  <div><span class="cmd-name">contact</span> — Email, LinkedIn and GitHub</div>
-  <div><span class="cmd-name">whoami</span> — Identity and current context</div>
+  <div><span class="cmd-name">philosophy</span> — Engineering philosophy &amp; advisory pillars</div>
+  <div><span class="cmd-name">launched</span> — Independent products &amp; client sites launched</div>
+  <div><span class="cmd-name">enterprise</span> — Enterprise platforms &amp; engineering leadership</div>
+  <div><span class="cmd-name">mentorship</span> — Developer coaching &amp; guided flagship builds</div>
+  <div><span class="cmd-name">speaking</span> — Guest lectures &amp; hackathon jury invitations</div>
+  <div><span class="cmd-name">contact</span> — Connect via Email, LinkedIn or GitHub</div>
+  <div><span class="cmd-name">whoami</span> — Identity and current focus</div>
   <div><span class="cmd-name">clear</span> — Clear terminal output</div>
 </div>`;
 
         case 'about':
-          return `
-<p><strong>Abishek VP</strong> — Software Engineer building enterprise identity, access and secrets infrastructure.</p>
-<p>&bull; <strong>Identity &amp; Access:</strong> PAM, Just-In-Time approvals and password self-service across AD, Entra ID and Google Workspace.</p>
-<p>&bull; <strong>Secrets in CI/CD:</strong> Published Terraform, Jenkins, Ansible, Chef and Puppet plugins.</p>
-<p>&bull; <strong>Product Engineering:</strong> Designs, ships and runs his own products end to end.</p>`;
+        case 'philosophy': {
+          const items = (this.store.about?.whatIDo?.items || [])
+            .map((line) => {
+              const idx = line.indexOf(':');
+              if (idx > 0) {
+                return `<p>&bull; <strong>${esc(line.slice(0, idx))}:</strong> ${esc(line.slice(idx + 1).trim())}</p>`;
+              }
+              return `<p>&bull; ${esc(line)}</p>`;
+            })
+            .join('\n');
+          return `<p><strong>${esc(this.store.profile?.name)}</strong> — ${esc(this.store.about?.bio?.title || this.store.hero?.tagline)}</p>\n${items}`;
+        }
 
-        case 'skills':
-          return `
-<div class="skills-output">
-  <div><span class="text-cyan">Backend:</span> Python, Django, Node.js, Express, REST APIs, PostgreSQL, MongoDB</div>
-  <div><span class="text-green">Identity:</span> Active Directory, Entra ID (Azure AD), Google Workspace, PAM, SSPR</div>
-  <div><span class="text-purple">DevOps:</span> Terraform, Ansible, Jenkins, Chef, Puppet</div>
-  <div><span class="text-yellow">Automation:</span> Playwright, Selenium, BeautifulSoup4</div>
-</div>`;
-
+        case 'launched':
         case 'projects':
         case 'products':
-          return `
-<div class="projects-output">
-  <div class="project-line">&bull; <strong class="text-cyan">Portfolio Manager</strong> — Headless CMS for personal websites. <a href="https://admin.abishek.in" target="_blank" rel="noopener" class="term-link">admin.abishek.in</a></div>
-  <div class="project-line">&bull; <strong class="text-cyan">Family Finance</strong> — Household money, managed together. <a href="https://finance.abishek.in" target="_blank" rel="noopener" class="term-link">finance.abishek.in</a></div>
-  <div class="project-line">&bull; <strong class="text-cyan">Credentials</strong> — Zero-knowledge password vault. <a href="https://credentials.abishek.in" target="_blank" rel="noopener" class="term-link">credentials.abishek.in</a></div>
-  <div class="project-line">&bull; <strong class="text-cyan">Service Subscription Manager</strong> — Every recurring charge in one place.</div>
-  <p class="mt-2 text-muted">See the <a href="#projects" class="term-link">Products section</a> for details.</p>
-</div>`;
+        case 'sites': {
+          const allProjects = (this.store.projects?.groups || []).flatMap((g) => g.items || []);
+          const lines = allProjects
+            .map((p) => {
+              const linkHtml = p.link
+                ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener" class="term-link">${esc(p.linkLabel || p.link)}</a>`
+                : '';
+              return `<div class="project-line">&bull; <strong class="text-cyan">${esc(p.title)}</strong> — ${esc(p.tagline || p.description)}${linkHtml}</div>`;
+            })
+            .join('\n');
+          return `<div class="projects-output">\n${lines}\n<p class="mt-2 text-muted">Explore the <a href="#projects" class="term-link">Launched Products &amp; Sites section</a>.</p>\n</div>`;
+        }
 
-        case 'experience':
-          return `
-<p><strong>Securden</strong> &bull; Software Engineer &bull; Mar 2024 – Present</p>
-<p>- PAM, Just-In-Time access, SSPR and identity provider integrations; DevOps secrets plugins.</p>
-<p><strong>DAAT</strong> &bull; Software Engineer &bull; May 2022 – Feb 2024</p>
-<p>- Backend workflows for a SaaS platform and a student management system; internal project management tool.</p>
-<p><strong>ROOK</strong> &bull; Software Engineer &bull; Aug 2020 – Apr 2022</p>
-<p>- Full-stack modules in Python, Django and JavaScript, from research to production.</p>`;
+        case 'enterprise':
+        case 'experience': {
+          return (this.store.experience?.jobs || [])
+            .map(
+              (j) =>
+                `<p><strong>${esc(j.company)}</strong> &bull; ${esc(j.title)} (${esc(j.period)})</p>\n<p>- ${esc(j.description)}</p>`
+            )
+            .join('\n');
+        }
 
-        case 'education':
-          return `
-<p><strong>B.E. Computer Science Engineering</strong> &bull; Rajalakshmi Institute of Technology, Chennai (2020 – 2024)</p>
-<p>- Internship at Madras Defence Academy; big data fault analysis project with SetConnect.</p>
-<p>- <span class="text-yellow">Smart India Hackathon 2022 winner</span> with GrantBase.</p>
-<p>- Led AI Horizon 2022 and ran placement training for my batch.</p>
-<p class="text-muted">More in the <a href="#education" class="term-link">Education section</a>.</p>`;
+        case 'mentorship':
+        case 'guided': {
+          const pillars = (this.store.mentorship?.pillars || [])
+            .map((p) => `<p>&bull; <strong>${esc(p.title)}:</strong> ${esc(p.description)}</p>`)
+            .join('\n');
+          const guided = (this.store.mentorship?.guidedProjects || [])
+            .map((g) => esc(g.title))
+            .join(', ');
+          const guidedLine = guided
+            ? `<p>&bull; <strong>Flagship Guided Builds:</strong> <span class="text-yellow">${guided}</span>.</p>`
+            : '';
+          return `${pillars}\n${guidedLine}\n<p class="text-muted">See <a href="#mentorship" class="term-link">Mentorship &amp; Guided Projects</a>.</p>`;
+        }
 
-        case 'events':
-          return `
-<p>&bull; <strong>Guest Lecture</strong> — Java concurrency for enterprise systems, Vel Tech High Tech, Chennai (26 Sep 2026)</p>
-<p>&bull; <strong>Jury Member</strong> — Internal Hackathon, Rajalakshmi Institute of Technology (2026)</p>
-<p>&bull; <strong>Jury Member</strong> — Internal Hackathon, St. Joseph College of Engineering (2024)</p>`;
+        case 'speaking':
+        case 'events': {
+          return (this.store.events?.items || [])
+            .map(
+              (ev) =>
+                `<p>&bull; <strong>${esc(ev.role || 'Event')}</strong> — ${esc(ev.title)}, ${esc(ev.venue || ev.host)} (${esc(ev.date)})</p>`
+            )
+            .join('\n');
+        }
 
-        case 'resume':
-          this.triggerResumeDownload();
-          return `
-<p class="text-green">&#x2714; Initiating download for <strong>${portfolioStore.resumeFilename}</strong>...</p>
-<p class="text-muted">Direct link: <a href="${portfolioStore.resumeUrl}" download="${portfolioStore.resumeFilename}" data-track="resume" class="term-link">Click here if download did not start</a>.</p>`;
-
-        case 'contact':
-          return `
-<div class="contact-output">
-  <div>&bull; <strong>Email:</strong> <a href="mailto:contact@abishek.in" class="term-link">contact@abishek.in</a></div>
-  <div>&bull; <strong>LinkedIn:</strong> <a href="https://linkedin.com/in/abishek-v-p" target="_blank" class="term-link">linkedin.com/in/abishek-v-p</a></div>
-  <div>&bull; <strong>GitHub:</strong> <a href="https://github.com/abishekvp" target="_blank" class="term-link">github.com/abishekvp</a></div>
-  <div>&bull; <strong>Instagram:</strong> <a href="https://www.instagram.com/abiraj.vp06/" target="_blank" class="term-link">abiraj.vp06</a></div>
-</div>`;
+        case 'contact': {
+          const methods = (this.store.contact?.methods || [])
+            .map((m) => {
+              const val = m.link
+                ? `<a href="${esc(m.link)}" target="_blank" rel="noopener" class="term-link">${esc(m.value)}</a>`
+                : esc(m.value);
+              return `<div>&bull; <strong>${esc(m.name)}:</strong> ${val}</div>`;
+            })
+            .join('\n');
+          return `<div class="contact-output">\n${methods}\n</div>`;
+        }
 
         case 'whoami':
-          return `guest &bull; exploring Abishek's work. Try <span class="cmd-pill">products</span> or <span class="cmd-pill">events</span>.`;
+          return `<span class="text-cyan">${esc(this.store.profile?.name)}</span> &bull; ${esc(this.store.hero?.tagline)} — ${esc(this.store.hero?.description)}`;
 
         case 'sudo':
-          return `<span class="text-green">[ACCESS GRANTED]</span> Let's build something together: <a href="#contact" class="term-link">#contact</a>.`;
+          return `<span class="text-green">[ACCESS GRANTED]</span> Let's build or collaborate: <a href="#contact" class="term-link">#contact</a>.`;
 
         default:
-          return `<span class="text-red">zsh: command not found: ${cmd}</span>. Type <span class="cmd-pill">help</span> for a list of valid commands.`;
+          return `<span class="text-red">zsh: command not found: ${esc(cmd)}</span>. Type <span class="cmd-pill">help</span> for a list of valid commands.`;
       }
     },
     navigateHistory(direction) {
@@ -258,15 +279,6 @@ export default {
       if (screen) {
         screen.scrollTop = screen.scrollHeight;
       }
-    },
-    triggerResumeDownload() {
-      const link = document.createElement('a');
-      link.href = portfolioStore.resumeUrl;
-      link.download = portfolioStore.resumeFilename;
-      link.setAttribute('data-track', 'resume');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     },
     clearTerminal() {
       this.history = [];

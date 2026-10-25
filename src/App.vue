@@ -8,7 +8,7 @@
       <a href="#home" class="brand-logo-link">
         <span class="pulse-dot"></span>
         <span class="brand-title-text font-mono">
-          <span class="terminal-prompt">$</span> Abishek.<span class="gradient-text">VP</span>
+          <span class="terminal-prompt">$</span> {{ brandFirst }}.<span class="gradient-text">{{ brandAccent }}</span>
         </span>
       </a>
     </header>
@@ -23,10 +23,9 @@
     <main class="main-content">
       <HeroSection />
       <AboutSection />
-      <ExperienceSection />
       <ProjectsSection />
-      <SkillsSection />
-      <EducationSection />
+      <ExperienceSection />
+      <MentorshipSection />
       <EventsSection />
       <TestimonialsSection />
       <TerminalSection />
@@ -53,15 +52,14 @@ import SideNavBar from "./components/SideNavBar.vue";
 import HeroSection from "./components/HeroSection.vue";
 import TerminalSection from "./components/TerminalSection.vue";
 import AboutSection from "./components/AboutSection.vue";
-import SkillsSection from "./components/SkillsSection.vue";
 import ProjectsSection from "./components/ProjectsSection.vue";
-import EducationSection from "./components/EducationSection.vue";
-import EventsSection from "./components/EventsSection.vue";
 import ExperienceSection from "./components/ExperienceSection.vue";
+import MentorshipSection from "./components/MentorshipSection.vue";
+import EventsSection from "./components/EventsSection.vue";
 import TestimonialsSection from "./components/TestimonialsSection.vue";
 import ContactSection from "./components/ContactSection.vue";
 import InteractiveTerminal from "./components/InteractiveTerminal.vue";
-import { portfolioService } from "./services/portfolioService";
+import { portfolioService, portfolioStore } from "./services/portfolioService";
 
 export default {
   name: "App",
@@ -72,11 +70,10 @@ export default {
     HeroSection,
     TerminalSection,
     AboutSection,
-    SkillsSection,
     ProjectsSection,
-    EducationSection,
-    EventsSection,
     ExperienceSection,
+    MentorshipSection,
+    EventsSection,
     TestimonialsSection,
     ContactSection,
     InteractiveTerminal,
@@ -85,6 +82,14 @@ export default {
     return {
       isTerminalModalOpen: false,
     };
+  },
+  computed: {
+    brandFirst() {
+      return portfolioStore.hero?.nameFirst || "Abishek";
+    },
+    brandAccent() {
+      return portfolioStore.hero?.nameAccent || "VP";
+    },
   },
   mounted() {
     // Initialize live portfolio data from admin.abishek.in / portfolio_manager.js
