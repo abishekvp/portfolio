@@ -9,55 +9,34 @@
         <p class="text-secondary">{{ aboutData.sectionSubtitle }}</p>
       </div>
 
-      <div class="about-content">
-        <!-- Left Column: Engineering & Advisory Pillars Box -->
-        <div class="about-card-left glass-card">
+      <div class="about-container">
+        <div class="about-narrative glass-card">
           <div class="terminal-dots mb-3">
             <span class="terminal-dot red"></span>
             <span class="terminal-dot yellow"></span>
             <span class="terminal-dot green"></span>
-            <span class="terminal-tag ml-auto">BUILDER_PILLARS.md</span>
+            <span class="terminal-tag ml-auto">about.md</span>
           </div>
 
-          <h3 class="competency-title">{{ aboutData.whatIDo.title }}</h3>
-          
-          <div class="competency-list">
-            <div
-              v-for="(item, index) in aboutData.whatIDo.items"
-              :key="index"
-              class="competency-item"
-            >
-              <div class="competency-header">
-                <span class="competency-bullet">#{{ index + 1 }}</span>
-                <div class="competency-text-block">
-                  <strong class="competency-name text-accent">{{ item.split(': ')[0] }}:</strong>
-                  <span class="competency-desc">{{ item.split(': ').slice(1).join(': ') }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Bio Narrative -->
-        <div class="about-narrative glass-card">
           <div v-if="aboutData.roleBadge" class="narrative-badge">
             <span>{{ aboutData.roleBadge }}</span>
           </div>
 
           <h3 class="narrative-headline">{{ aboutData.bio.title }}</h3>
-          
+
           <div class="narrative-paragraphs">
             <p v-for="(paragraph, index) in aboutData.bio.paragraphs" :key="index">
               {{ paragraph }}
             </p>
           </div>
 
-          <dl v-if="aboutData.facts && aboutData.facts.length" class="about-facts">
-            <div v-for="fact in aboutData.facts" :key="fact.label" class="fact">
-              <dt>{{ fact.label }}</dt>
-              <dd>{{ fact.value }}</dd>
+          <!-- Stat Strip (replaces FOCUS / SHIPPING SINCE / BASE) -->
+          <div v-if="aboutData.facts && aboutData.facts.length" class="stat-strip">
+            <div v-for="fact in aboutData.facts" :key="fact.label" class="stat-card glass">
+              <span class="stat-label font-mono">{{ fact.label }}</span>
+              <strong class="stat-val">{{ fact.value }}</strong>
             </div>
-          </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -87,156 +66,115 @@ export default {
 .mb-3 { margin-bottom: 1rem; }
 .ml-auto { margin-left: auto; }
 
+.font-mono {
+  font-family: var(--font-mono);
+}
+
 .terminal-tag {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--color-text-muted);
 }
 
-.about-content {
-  display: grid;
-  grid-template-columns: 1fr 1.35fr;
-  gap: var(--spacing-xl);
-  align-items: stretch;
+.about-container {
+  max-width: 920px;
+  margin: 0 auto;
 }
 
-/* Left Card */
-.about-card-left {
+.about-narrative {
   display: flex;
   flex-direction: column;
   background: rgba(15, 23, 42, 0.45);
   border: 1px solid var(--glass-border);
-}
-
-.competency-title {
-  font-size: 1.25rem;
-  margin-bottom: 1.25rem;
-  color: var(--color-text-primary);
-}
-
-.competency-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.competency-item {
-  padding: 0.85rem;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 3px solid var(--color-accent-primary);
-  transition: all var(--transition-fast);
-}
-
-.competency-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateX(4px);
-}
-
-.competency-header {
-  display: flex;
-  gap: 0.75rem;
-  font-size: 0.92rem;
-  line-height: 1.5;
-}
-
-.competency-bullet {
-  font-family: var(--font-mono);
-  color: var(--color-accent-tertiary);
-  font-weight: 700;
-}
-
-.competency-name {
-  margin-right: 0.35em;
-}
-
-.competency-text {
-  color: var(--color-text-secondary);
-}
-
-/* Right Narrative Card */
-.about-narrative {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: rgba(15, 23, 42, 0.45);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg);
 }
 
 .narrative-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.3rem 0.8rem;
+  border-radius: 9999px;
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(14, 165, 233, 0.35);
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: #10b981;
-  letter-spacing: 1px;
-  margin-bottom: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-accent-tertiary);
+  margin-bottom: 1rem;
 }
 
 .narrative-headline {
   font-size: 1.6rem;
-  margin-bottom: 1rem;
+  font-weight: 700;
   color: var(--color-text-primary);
+  margin-bottom: 1.25rem;
 }
 
 .narrative-paragraphs {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.15rem;
   font-size: 1.05rem;
-  line-height: 1.75;
+  line-height: 1.8;
   color: var(--color-text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-/* Facts row */
-.about-facts {
+/* Stat strip */
+.stat-strip {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  margin: 0;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 1.25rem;
 }
 
-.fact {
-  padding: 0 1rem;
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.15rem;
+  border-radius: var(--radius-md);
+  background: rgba(10, 15, 28, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all var(--transition-fast);
 }
 
-.fact:first-child {
-  padding-left: 0;
-  border-left: none;
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--glass-border-hover);
+  transform: translateY(-2px);
 }
 
-.fact dt {
-  font-family: var(--font-mono);
+.stat-label {
   font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-bottom: 0.3rem;
-}
-
-.fact dd {
-  margin: 0;
-  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--color-text-primary);
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
 }
 
-@media (max-width: 1024px) {
-  .about-content {
-    grid-template-columns: 1fr;
+.stat-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-accent-tertiary);
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .stat-strip {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 640px) {
-  .about-facts {
-    grid-template-columns: 1fr;
-    gap: 0.9rem;
+@media (max-width: 600px) {
+  .about-narrative {
+    padding: var(--spacing-lg);
   }
 
-  .fact {
-    padding: 0;
-    border-left: none;
+  .stat-strip {
+    grid-template-columns: 1fr;
   }
 }
 </style>

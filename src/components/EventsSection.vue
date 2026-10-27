@@ -1,17 +1,17 @@
 <template>
-  <section v-if="data.visible && data.items.length" id="events" class="section events-section">
+  <section v-if="data.visible && eventItems.length" id="talks" class="section events-section">
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>{{ data.badge }}</span>
+          <span>{{ data.badge || '// TALKS & COMMUNITY' }}</span>
         </div>
-        <h2 v-html="data.sectionTitle"></h2>
-        <p class="text-secondary">{{ data.sectionSubtitle }}</p>
+        <h2 v-html="data.sectionTitle || 'Talks &amp; <span class=\'gradient-text\'>Community</span>'"></h2>
+        <p class="text-secondary">{{ data.sectionSubtitle || 'Guest lectures, hackathon juries, and engineering community mentorship' }}</p>
       </div>
 
       <div class="events-list">
         <article
-          v-for="(ev, i) in data.items"
+          v-for="(ev, i) in eventItems"
           :key="i"
           :class="['event-card', 'glass-card', { 'has-image': ev.images && ev.images.length }]"
         >
@@ -27,7 +27,7 @@
             <span v-if="ev.images.length > 1" class="media-count font-mono">+{{ ev.images.length - 1 }} photos</span>
           </button>
           <div v-else class="event-media is-placeholder" aria-hidden="true">
-            <span class="placeholder-icon">{{ ev.role === 'Guest Lecture' ? '🎤' : '⚖️' }}</span>
+            <span class="placeholder-icon">{{ getEventIcon(ev.role) }}</span>
             <span class="placeholder-text font-mono">{{ ev.venue }}</span>
           </div>
 
@@ -38,10 +38,10 @@
               <span class="event-date font-mono">{{ ev.date }}</span>
             </div>
             <h3 class="event-title">{{ ev.title }}</h3>
-            <p class="event-venue">
+            <p v-if="ev.venue" class="event-venue">
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
+                <circle cx="10" cy="10" r="3"></circle>
               </svg>
               <span>{{ [ev.venue, ev.place].filter(Boolean).join(', ') }}</span>
             </p>
@@ -67,6 +67,7 @@
 
 <script>
 import { portfolioStore } from "../services/portfolioService";
+import { talksCommunity } from "../data/showcase";
 
 export default {
   name: "EventsSection",
@@ -77,6 +78,12 @@ export default {
     data() {
       return portfolioStore.events;
     },
+    eventItems() {
+      if (this.data.items && this.data.items.length) {
+        return this.data.items;
+      }
+      return talksCommunity;
+    },
   },
   mounted() {
     window.addEventListener("keydown", this.onKey);
@@ -85,6 +92,12 @@ export default {
     window.removeEventListener("keydown", this.onKey);
   },
   methods: {
+    getEventIcon(role) {
+      if (role === "Guest Lecture") return "🎤";
+      if (role === "National Winner") return "🏆";
+      if (role === "Peer Trainer") return "👥";
+      return "⚖️";
+    },
     open(ev, index) {
       this.viewer = { ev, index };
     },
@@ -138,65 +151,68 @@ export default {
   overflow: hidden;
   background: rgba(15, 23, 42, 0.45);
   border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
   transition: border-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .event-card:hover {
   transform: translateY(-3px);
   border-color: var(--glass-border-hover);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 /* Media */
 .event-media {
   position: relative;
-  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
   padding: 0;
-  border: none;
-  background: rgba(10, 15, 28, 0.8);
-  cursor: zoom-in;
+  border: 0;
+  background: rgba(10, 15, 28, 0.7);
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .event-card.has-image .event-media {
-  flex: 0 0 38%;
-  max-width: 380px;
+  width: 45%;
+  flex-shrink: 0;
+  aspect-ratio: auto;
+  min-height: 280px;
 }
 
 .event-media img {
-  display: block;
   width: 100%;
   height: 100%;
-  max-height: 520px;
   object-fit: cover;
-  object-position: top center;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
 .event-media:hover img {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .media-count {
   position: absolute;
-  right: 0.75rem;
-  bottom: 0.75rem;
+  right: 0.65rem;
+  bottom: 0.65rem;
   padding: 0.2rem 0.55rem;
   border-radius: 9999px;
-  font-size: 0.72rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
   color: #fff;
-  background: rgba(0, 0, 0, 0.65);
+  font-size: 0.75rem;
 }
 
 .event-media.is-placeholder {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  height: 120px;
-  padding: 0 1.5rem;
+  justify-content: center;
+  gap: 0.5rem;
   cursor: default;
-  background:
-    radial-gradient(circle at 85% 20%, var(--color-tag-bg), transparent 60%),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(10, 15, 28, 0.95));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: radial-gradient(circle at center, rgba(14, 165, 233, 0.08) 0%, rgba(10, 15, 28, 0.8) 75%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: 120px;
 }
 
 .placeholder-icon {
@@ -205,135 +221,125 @@ export default {
 
 .placeholder-text {
   font-size: 0.78rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   color: var(--color-text-muted);
+  max-width: 80%;
+  text-align: center;
 }
 
 /* Body */
 .event-body {
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1.6rem;
-}
-
-.event-card.has-image .event-body {
-  justify-content: center;
-  padding: 2rem 2.25rem;
+  gap: 0.5rem;
+  padding: var(--spacing-lg);
+  flex-grow: 1;
 }
 
 .event-top {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.85rem;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .role-chip {
-  padding: 0.2rem 0.65rem;
+  display: inline-flex;
+  padding: 0.2rem 0.6rem;
   border-radius: 9999px;
-  font-size: 0.74rem;
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--color-accent-tertiary);
-  background: var(--color-tag-bg);
-  border: 1px solid var(--color-tag-border);
+  letter-spacing: 0.04em;
 }
 
 .event-date {
-  font-size: 0.82rem;
-  color: var(--color-text-secondary);
-}
-
-.event-title {
-  font-size: 1.25rem;
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-
-.event-card.has-image .event-title {
-  font-size: 1.5rem;
-}
-
-.event-venue {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.4rem;
-  margin-top: 0.6rem;
-  font-size: 0.93rem;
-  font-weight: 600;
-  color: var(--color-accent-tertiary);
-}
-
-.event-venue svg {
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.event-host {
-  margin-top: 0.25rem;
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   color: var(--color-text-muted);
 }
 
+.event-title {
+  font-size: 1.15rem;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  margin-top: 0.15rem;
+}
+
+.event-venue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.event-host {
+  font-size: 0.82rem;
+  color: var(--color-accent-tertiary);
+  font-style: italic;
+}
+
 .event-desc {
-  margin-top: 0.9rem;
-  font-size: 0.97rem;
-  line-height: 1.65;
+  font-size: 0.9rem;
+  line-height: 1.6;
   color: var(--color-text-secondary);
+  margin-top: 0.25rem;
 }
 
 /* Lightbox */
 .lightbox {
   position: fixed;
   inset: 0;
-  z-index: 3000;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(8px);
-}
-
-.lightbox img {
-  max-width: min(100%, 900px);
-  max-height: 82vh;
-  object-fit: contain;
-  border-radius: var(--radius-md);
+  padding: 2rem;
 }
 
 .lightbox-close {
   position: absolute;
-  top: 1rem;
-  right: 1.25rem;
-  font-size: 2rem;
-  line-height: 1;
-  color: #fff;
+  top: 1.5rem;
+  right: 1.5rem;
   background: none;
-  border: none;
+  border: 0;
+  color: #fff;
+  font-size: 2.5rem;
   cursor: pointer;
+  line-height: 1;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
 .lightbox-nav {
+  margin-top: 1rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   color: #fff;
 }
 
 .lightbox-nav button {
-  padding: 0.35rem 0.8rem;
-  border-radius: var(--radius-sm);
-  color: #fff;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-sm);
   cursor: pointer;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 820px) {
   .events-list {
     grid-template-columns: 1fr;
   }
@@ -343,16 +349,9 @@ export default {
   }
 
   .event-card.has-image .event-media {
-    flex: none;
-    max-width: none;
-  }
-
-  .event-media img {
-    max-height: 420px;
-  }
-
-  .event-card.has-image .event-body {
-    padding: 1.5rem 1.6rem;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    min-height: unset;
   }
 }
 </style>

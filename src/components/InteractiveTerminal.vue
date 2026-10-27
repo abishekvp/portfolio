@@ -8,7 +8,7 @@
         <span class="terminal-dot green" @click="toggleMaximize" title="Expand"></span>
       </div>
       <div class="terminal-title">
-        <span class="terminal-user">abishek@platform-sec</span>:<span class="terminal-path">~</span> (zsh - 80x24)
+        <span class="terminal-user">abishek@securden-sec</span>:<span class="terminal-path">~</span> (zsh - 80x24)
       </div>
       <div class="terminal-status">
         <span class="status-indicator"></span>
@@ -28,12 +28,12 @@
  | | | |_| |_/ /_| |_/\__/ / | | | |___| |\  \
  \_| |_(_)\____/ \___/\____/\_| |_|____/\_| \_/
         </pre>
-        <p class="welcome-text">
-          <strong class="text-accent">{{ store.profile.name }}</strong> — {{ store.hero.tagline }}<br />
-          {{ store.terminal.welcomeSubtitle }}
+        <p class="welcome-text font-mono">
+          <strong class="text-accent">Abishek V</strong> — Software Engineer, Backend &amp; Security<br />
+          {{ store.terminal.welcomeSubtitle || 'Software Engineer at Securden · backend & security · open to new roles' }}
         </p>
-        <p class="welcome-hint">
-          Type <span class="cmd-pill">help</span> to view all commands or click the shortcut chips below.
+        <p class="welcome-hint font-mono">
+          Type <span class="cmd-pill">help</span> to view available commands or click the shortcut chips below.
         </p>
       </div>
 
@@ -41,7 +41,7 @@
       <div
         v-for="(item, index) in history"
         :key="index"
-        class="history-item"
+        class="history-item font-mono"
       >
         <div class="history-cmd-line">
           <span class="prompt-user">abishek@sec</span>:<span class="prompt-path">~</span>$
@@ -51,7 +51,7 @@
       </div>
 
       <!-- Current Prompt Line -->
-      <div class="terminal-input-line">
+      <div class="terminal-input-line font-mono">
         <span class="prompt-user">abishek@sec</span>:<span class="prompt-path">~</span>$
         <input
           ref="cmdInput"
@@ -69,7 +69,7 @@
     </div>
 
     <!-- Quick Command Chips for mobile and fast exploration -->
-    <div class="terminal-chips">
+    <div class="terminal-chips font-mono">
       <span class="chips-label">Quick actions:</span>
       <button
         v-for="chip in quickChips"
@@ -98,8 +98,8 @@ export default {
   props: {
     isModal: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -109,25 +109,24 @@ export default {
       history: [
         {
           command: 'whoami',
-          output: `<span class="text-cyan">abishek.vp</span> &bull; Software Engineer, Product Builder &amp; Mentor — architecting enterprise identity &amp; PAM systems, launching SaaS platforms, and guiding builders.`
-        }
+          output: `<span class="text-cyan">abishek.v</span> — Software Engineer at Securden · backend &amp; security · open to new roles`,
+        },
       ],
       quickChips: [
-        { label: 'help', cmd: 'help' },
-        { label: 'philosophy', cmd: 'philosophy' },
-        { label: 'launched', cmd: 'launched' },
-        { label: 'enterprise', cmd: 'enterprise' },
-        { label: 'mentorship', cmd: 'mentorship' },
-        { label: 'speaking', cmd: 'speaking' },
+        { label: 'whoami', cmd: 'whoami' },
+        { label: 'experience', cmd: 'experience' },
+        { label: 'plugins', cmd: 'plugins' },
+        { label: 'projects', cmd: 'projects' },
+        { label: 'resume', cmd: 'resume' },
         { label: 'contact', cmd: 'contact' },
-        { label: 'clear', cmd: 'clear' }
-      ]
+        { label: 'clear', cmd: 'clear' },
+      ],
     };
   },
   computed: {
     store() {
       return portfolioStore;
-    }
+    },
   },
   methods: {
     focusInput() {
@@ -139,6 +138,36 @@ export default {
       this.currentCommand = cmd;
       this.executeCommand();
     },
+    clearTerminal() {
+      this.history = [];
+    },
+    handleDotClose() {
+      if (this.isModal) {
+        this.$parent.$emit('close-terminal');
+      } else {
+        this.clearTerminal();
+      }
+    },
+    toggleMaximize() {
+      // Toggle modal expand
+    },
+    navigateHistory(dir) {
+      if (!this.pastCommands.length) return;
+      if (dir === 'up') {
+        if (this.historyIndex > 0) {
+          this.historyIndex--;
+          this.currentCommand = this.pastCommands[this.historyIndex];
+        }
+      } else if (dir === 'down') {
+        if (this.historyIndex < this.pastCommands.length - 1) {
+          this.historyIndex++;
+          this.currentCommand = this.pastCommands[this.historyIndex];
+        } else {
+          this.historyIndex = this.pastCommands.length;
+          this.currentCommand = '';
+        }
+      }
+    },
     executeCommand() {
       const rawCmd = this.currentCommand.trim();
       if (!rawCmd) return;
@@ -147,11 +176,12 @@ export default {
       this.historyIndex = this.pastCommands.length;
 
       const [command] = rawCmd.split(' ');
-      const output = this.handleCommand(command.toLowerCase());
+      const cmdKey = command.toLowerCase();
 
-      if (command.toLowerCase() === 'clear') {
+      if (cmdKey === 'clear') {
         this.history = [];
       } else {
+        const output = this.handleCommand(cmdKey);
         this.history.push({ command: rawCmd, output });
       }
 
@@ -160,202 +190,160 @@ export default {
         this.scrollToBottom();
       });
     },
+    scrollToBottom() {
+      if (this.$refs.screenRef) {
+        this.$refs.screenRef.scrollTop = this.$refs.screenRef.scrollHeight;
+      }
+    },
     handleCommand(cmd) {
       switch (cmd) {
         case 'help':
           return `
 <div class="cmd-table">
-  <div><span class="cmd-name">help</span> — Display this command reference guide</div>
-  <div><span class="cmd-name">philosophy</span> — Engineering philosophy &amp; advisory pillars</div>
-  <div><span class="cmd-name">launched</span> — Independent products &amp; client sites launched</div>
-  <div><span class="cmd-name">enterprise</span> — Enterprise platforms &amp; engineering leadership</div>
-  <div><span class="cmd-name">mentorship</span> — Developer coaching &amp; guided flagship builds</div>
-  <div><span class="cmd-name">speaking</span> — Guest lectures &amp; hackathon jury invitations</div>
-  <div><span class="cmd-name">contact</span> — Connect via Email, LinkedIn or GitHub</div>
-  <div><span class="cmd-name">whoami</span> — Identity and current focus</div>
+  <div><span class="cmd-name">whoami</span> — Identity, target role &amp; current focus</div>
+  <div><span class="cmd-name">experience</span> — Professional employment &amp; engineering milestones</div>
+  <div><span class="cmd-name">plugins</span> — Public DevOps secrets plugins &amp; 3,900+ downloads</div>
+  <div><span class="cmd-name">projects</span> — Live SaaS platforms &amp; academic builds</div>
+  <div><span class="cmd-name">resume</span> — View or download official PDF resume</div>
+  <div><span class="cmd-name">contact</span> — Email, LinkedIn, GitHub and contact details</div>
   <div><span class="cmd-name">clear</span> — Clear terminal output</div>
 </div>`;
 
-        case 'about':
-        case 'philosophy': {
-          const items = (this.store.about?.whatIDo?.items || [])
-            .map((line) => {
-              const idx = line.indexOf(':');
-              if (idx > 0) {
-                return `<p>&bull; <strong>${esc(line.slice(0, idx))}:</strong> ${esc(line.slice(idx + 1).trim())}</p>`;
-              }
-              return `<p>&bull; ${esc(line)}</p>`;
-            })
-            .join('\n');
-          return `<p><strong>${esc(this.store.profile?.name)}</strong> — ${esc(this.store.about?.bio?.title || this.store.hero?.tagline)}</p>\n${items}`;
-        }
-
-        case 'launched':
-        case 'projects':
-        case 'products':
-        case 'sites': {
-          const allProjects = (this.store.projects?.groups || []).flatMap((g) => g.items || []);
-          const lines = allProjects
-            .map((p) => {
-              const linkHtml = p.link
-                ? ` <a href="${esc(p.link)}" target="_blank" rel="noopener" class="term-link">${esc(p.linkLabel || p.link)}</a>`
-                : '';
-              return `<div class="project-line">&bull; <strong class="text-cyan">${esc(p.title)}</strong> — ${esc(p.tagline || p.description)}${linkHtml}</div>`;
-            })
-            .join('\n');
-          return `<div class="projects-output">\n${lines}\n<p class="mt-2 text-muted">Explore the <a href="#projects" class="term-link">Launched Products &amp; Sites section</a>.</p>\n</div>`;
-        }
-
-        case 'enterprise':
-        case 'experience': {
-          return (this.store.experience?.jobs || [])
-            .map(
-              (j) =>
-                `<p><strong>${esc(j.company)}</strong> &bull; ${esc(j.title)} (${esc(j.period)})</p>\n<p>- ${esc(j.description)}</p>`
-            )
-            .join('\n');
-        }
-
-        case 'mentorship':
-        case 'guided': {
-          const pillars = (this.store.mentorship?.pillars || [])
-            .map((p) => `<p>&bull; <strong>${esc(p.title)}:</strong> ${esc(p.description)}</p>`)
-            .join('\n');
-          const guided = (this.store.mentorship?.guidedProjects || [])
-            .map((g) => esc(g.title))
-            .join(', ');
-          const guidedLine = guided
-            ? `<p>&bull; <strong>Flagship Guided Builds:</strong> <span class="text-yellow">${guided}</span>.</p>`
-            : '';
-          return `${pillars}\n${guidedLine}\n<p class="text-muted">See <a href="#mentorship" class="term-link">Mentorship &amp; Guided Projects</a>.</p>`;
-        }
-
-        case 'speaking':
-        case 'events': {
-          return (this.store.events?.items || [])
-            .map(
-              (ev) =>
-                `<p>&bull; <strong>${esc(ev.role || 'Event')}</strong> — ${esc(ev.title)}, ${esc(ev.venue || ev.host)} (${esc(ev.date)})</p>`
-            )
-            .join('\n');
-        }
-
-        case 'contact': {
-          const methods = (this.store.contact?.methods || [])
-            .map((m) => {
-              const val = m.link
-                ? `<a href="${esc(m.link)}" target="_blank" rel="noopener" class="term-link">${esc(m.value)}</a>`
-                : esc(m.value);
-              return `<div>&bull; <strong>${esc(m.name)}:</strong> ${val}</div>`;
-            })
-            .join('\n');
-          return `<div class="contact-output">\n${methods}\n</div>`;
-        }
-
         case 'whoami':
-          return `<span class="text-cyan">${esc(this.store.profile?.name)}</span> &bull; ${esc(this.store.hero?.tagline)} — ${esc(this.store.hero?.description)}`;
+          return `<span class="text-cyan">abishek.v</span> — Software Engineer at Securden · backend &amp; security · open to new roles`;
 
-        case 'sudo':
-          return `<span class="text-green">[ACCESS GRANTED]</span> Let's build or collaborate: <a href="#contact" class="term-link">#contact</a>.`;
+        case 'experience':
+          return `
+<div class="exp-output">
+  <p><strong class="text-green">Securden</strong> · Software Engineer (Full-time) · Mar 2024 – Present · Chennai</p>
+  <p class="text-muted">Privileged Access Management · Identity · DevOps secrets</p>
+  <p>- Built Self-Service Password Reset (SSPR) from scratch (Active Directory, Entra ID, Google Workspace).</p>
+  <p>- Added delta sync for Microsoft Entra ID; built REST APIs for JIT privileged access in Password Vault.</p>
+  <p>- Built secrets plugins for Terraform, Chef, Puppet, Jenkins and Ansible with 3,900+ public downloads.</p>
+  <br />
+  <p><strong class="text-green">DAAT</strong> · Software Engineer (Part-time) · May 2022 – Feb 2024</p>
+  <p>- Rebuilt company brand website; built and delivered client web projects.</p>
+  <p>- Built internal project management tool solo for task tracking and team collaboration.</p>
+  <br />
+  <p><strong class="text-green">Madras Defence Academy</strong> · Web Developer Intern · Nov 2021 – Jan 2022</p>
+  <p>- Built learning portal in React for onboarding, materials and discussion forum.</p>
+  <br />
+  <p><strong class="text-green">ROOK</strong> · Web Developer (Part-time) · Aug 2021 – May 2022 (Intern Jan–Aug 2021)</p>
+  <p>- Built websites with Python, Django, JavaScript and SQL; modernised brand interfaces.</p>
+</div>`;
+
+        case 'plugins':
+          return `
+<div class="plugins-output">
+  <p><strong class="text-yellow">Public DevOps Secrets Plugins</strong> (3,900+ total downloads):</p>
+  <p>• <a href="https://registry.terraform.io/providers/SecurdenDevOps/securden/latest" target="_blank" class="term-link">Terraform provider</a> (Go, Terraform Registry): 2,526 downloads across 9 versions</p>
+  <p>• <a href="https://forge.puppet.com/modules/securden/securden" target="_blank" class="term-link">Puppet module</a> (Puppet, Puppet Forge): 756 downloads</p>
+  <p>• <a href="https://rubygems.org/gems/securden" target="_blank" class="term-link">Chef gem</a> (Ruby, RubyGems): 664 downloads</p>
+  <p>• Jenkins plugin (Java, Maven): Bundled with Securden</p>
+  <p>• Ansible plugin (Python): Bundled with Securden</p>
+</div>`;
+
+        case 'projects':
+          return `
+<div class="projects-output">
+  <p>• <strong class="text-cyan">Portfolio Manager</strong> [Live] — Headless CMS with API keys, visitor analytics &amp; contact inbox. <a href="https://admin.abishek.in" target="_blank" class="term-link">admin.abishek.in</a> · <a href="https://github.com/abishekvp/portfolio-admin" target="_blank" class="term-link">GitHub</a></p>
+  <p>• <strong class="text-cyan">Family Finance</strong> [Live] — Shared &amp; private household ledgers with RBAC &amp; PWA. <a href="https://finance.abishek.in" target="_blank" class="term-link">finance.abishek.in</a> · <a href="https://github.com/abishekvp/family-finance" target="_blank" class="term-link">GitHub</a></p>
+  <p>• <strong class="text-cyan">GrantBase</strong> [Academic · SIH 2022 Winner] — Automated grant calls collection &amp; alerts. <a href="https://github.com/abishekvp/SIH_DR715" target="_blank" class="term-link">GitHub</a></p>
+  <p>• <strong class="text-cyan">OASIS records automation</strong> [Academic] — Reads Excel records &amp; populates college OASIS portal. <a href="https://github.com/abishekvp/Web-Automation-Streamlining-OASIS-Web-Portal" target="_blank" class="term-link">GitHub</a></p>
+  <p>• <strong class="text-cyan">LegalTech</strong> [Academic] — Digital case-record management for lawyers &amp; advocate discovery. <a href="https://github.com/abishekvp/legaltech" target="_blank" class="term-link">GitHub</a></p>
+</div>`;
+
+        case 'resume':
+          return `
+<p>Download PDF Resume: <a href="/Abishek_V_Software_Engineer.pdf" target="_blank" download="Abishek_V_Software_Engineer.pdf" class="term-link">Abishek_V_Software_Engineer.pdf</a> ↗</p>`;
+
+        case 'contact':
+          return `
+<div class="contact-output">
+  <p>• <strong>Email:</strong> <a href="mailto:contact@abishek.in" class="term-link">contact@abishek.in</a></p>
+  <p>• <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/abishek-v-p/" target="_blank" class="term-link">linkedin.com/in/abishek-v-p</a></p>
+  <p>• <strong>GitHub:</strong> <a href="https://github.com/abishekvp" target="_blank" class="term-link">github.com/abishekvp</a></p>
+  <p>• <strong>Web Form:</strong> Scroll to <a href="#contact" class="term-link">#contact</a> to send a direct message.</p>
+</div>`;
 
         default:
-          return `<span class="text-red">zsh: command not found: ${esc(cmd)}</span>. Type <span class="cmd-pill">help</span> for a list of valid commands.`;
+          return `<span class="text-red">zsh: command not found: ${esc(cmd)}</span>. Type <span class="cmd-pill">help</span> for available commands.`;
       }
     },
-    navigateHistory(direction) {
-      if (direction === 'up' && this.historyIndex > 0) {
-        this.historyIndex--;
-        this.currentCommand = this.pastCommands[this.historyIndex];
-      } else if (direction === 'down' && this.historyIndex < this.pastCommands.length - 1) {
-        this.historyIndex++;
-        this.currentCommand = this.pastCommands[this.historyIndex];
-      } else if (direction === 'down') {
-        this.historyIndex = this.pastCommands.length;
-        this.currentCommand = '';
-      }
-    },
-    scrollToBottom() {
-      const screen = this.$refs.screenRef;
-      if (screen) {
-        screen.scrollTop = screen.scrollHeight;
-      }
-    },
-    clearTerminal() {
-      this.history = [];
-      this.currentCommand = '';
-    },
-    handleDotClose() {
-      this.clearTerminal();
-    },
-    toggleMaximize() {
-      const el = this.$el;
-      if (el) el.classList.toggle('terminal-maximized');
-    }
-  }
+  },
 };
 </script>
 
 <style scoped>
+.font-mono {
+  font-family: var(--font-mono);
+}
+
 .terminal-container {
   width: 100%;
-  max-width: 960px;
+  max-width: 980px;
   margin: 0 auto;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(var(--accent-rgb, 14, 165, 233), 0.15);
-  transition: all var(--transition-base);
+  background: rgba(10, 15, 28, 0.88);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(16, 185, 129, 0.1);
 }
 
 .terminal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.85rem 1.25rem;
-  background: rgba(13, 20, 36, 0.85);
+  padding: 0.75rem 1.25rem;
+  background: rgba(15, 23, 42, 0.85);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  user-select: none;
 }
 
 .terminal-dots {
   display: flex;
-  gap: 8px;
+  gap: 0.45rem;
 }
 
 .terminal-dot {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   cursor: pointer;
-  transition: transform 0.15s ease;
+  transition: transform var(--transition-fast);
 }
 
 .terminal-dot:hover {
-  transform: scale(1.2);
+  transform: scale(1.15);
 }
+
+.terminal-dot.red { background: #ef4444; }
+.terminal-dot.yellow { background: #f59e0b; }
+.terminal-dot.green { background: #10b981; }
 
 .terminal-title {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--color-text-muted);
-  letter-spacing: 0.4px;
 }
 
 .terminal-user {
-  color: var(--color-accent-tertiary);
+  color: #10b981;
 }
 
 .terminal-path {
-  color: #10b981;
+  color: #38bdf8;
 }
 
 .terminal-status {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.4rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: #10b981;
-  letter-spacing: 1px;
+  letter-spacing: 0.05em;
 }
 
 .status-indicator {
@@ -367,50 +355,53 @@ export default {
 }
 
 .terminal-screen {
-  padding: 1.5rem;
-  min-height: 380px;
-  max-height: 520px;
+  height: 380px;
   overflow-y: auto;
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
-  line-height: 1.65;
-  color: #e2e8f0;
-  cursor: text;
+  padding: 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
 }
 
 .ascii-banner {
-  color: var(--color-accent-primary);
-  font-size: clamp(0.55rem, 1.3vw, 0.82rem);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
   line-height: 1.15;
-  margin-bottom: 0.8rem;
-  font-weight: 700;
-  overflow-x: hidden;
-  text-shadow: 0 0 12px var(--color-glow-1);
+  color: #10b981;
+  margin-bottom: 0.75rem;
+  user-select: none;
 }
 
 .welcome-text {
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
-  color: #cbd5e1;
 }
 
 .welcome-hint {
-  color: var(--color-text-muted);
   font-size: 0.82rem;
+  color: var(--color-text-muted);
   margin-bottom: 1.25rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.cmd-pill {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-weight: 600;
 }
 
 .history-item {
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
-.history-cmd-line {
+.history-cmd-line,
+.terminal-input-line {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #94a3b8;
-  margin-bottom: 0.35rem;
 }
 
 .prompt-user {
@@ -419,123 +410,118 @@ export default {
 }
 
 .prompt-path {
-  color: var(--color-accent-tertiary);
-  font-weight: 600;
+  color: #38bdf8;
 }
 
 .history-command {
   color: #ffffff;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .history-output {
-  color: #cbd5e1;
-  padding-left: 0.5rem;
-  border-left: 2px solid rgba(255, 255, 255, 0.08);
+  margin-top: 0.35rem;
+  margin-left: 0.5rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid rgba(16, 185, 129, 0.3);
+  color: var(--color-text-primary);
 }
 
 .terminal-input-line {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   margin-top: 0.5rem;
 }
 
 .terminal-input {
-  flex: 1;
+  flex-grow: 1;
   background: transparent;
   border: none;
   outline: none;
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
   color: #ffffff;
-  caret-color: transparent; /* custom cursor */
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
 }
 
-/* Chips Toolbar */
+.cursor-blink {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background: #10b981;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
 .terminal-chips {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  background: rgba(8, 12, 22, 0.8);
+  background: rgba(15, 23, 42, 0.75);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .chips-label {
-  font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--color-text-muted);
-  margin-right: 0.3rem;
 }
 
 .chip-btn {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  color: var(--color-accent-tertiary);
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
 }
 
 .chip-btn:hover {
-  background: var(--color-accent-primary);
-  color: #ffffff;
-  border-color: var(--color-accent-primary);
-  transform: translateY(-1px);
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
 }
 
-/* Helpers */
-.cmd-pill {
-  display: inline-block;
-  padding: 0.1rem 0.4rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  color: var(--color-accent-primary);
-  font-family: var(--font-mono);
+/* Modal view adjustments */
+.terminal-modal-view {
+  max-width: 100%;
+  box-shadow: none;
 }
 
-.text-accent { color: var(--color-accent-primary); }
-.text-cyan { color: #38bdf8; }
-.text-green { color: #10b981; }
-.text-purple { color: #c084fc; }
-.text-yellow { color: #fbbf24; }
-.text-red { color: #f87171; }
-
-.term-link {
-  color: var(--color-accent-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.terminal-modal-view .terminal-screen {
+  height: 50vh;
 }
 
-.cmd-table {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 0.4rem 0;
-}
-
-.cmd-name {
+:deep(.text-cyan) { color: #38bdf8; }
+:deep(.text-green) { color: #10b981; }
+:deep(.text-yellow) { color: #f59e0b; }
+:deep(.text-red) { color: #ef4444; }
+:deep(.text-muted) { color: var(--color-text-muted); }
+:deep(.term-link) {
   color: #38bdf8;
-  font-weight: 600;
+  text-decoration: underline;
+}
+:deep(.cmd-table) {
+  display: grid;
+  gap: 0.35rem;
+}
+:deep(.cmd-name) {
   display: inline-block;
-  width: 100px;
+  width: 95px;
+  color: #10b981;
+  font-weight: 600;
 }
 
-@media (max-width: 768px) {
-  .terminal-screen {
-    padding: 1rem;
-    min-height: 280px;
-    max-height: 380px;
-    font-size: 0.8rem;
+@media (max-width: 640px) {
+  .ascii-banner {
+    display: none;
   }
 
-  .terminal-chips {
-    padding: 0.5rem 0.8rem;
+  .terminal-screen {
+    height: 320px;
   }
 }
 </style>

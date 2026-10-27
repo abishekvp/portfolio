@@ -3,68 +3,28 @@
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>{{ edu.badge }}</span>
+          <span>{{ edu.badge || '// EDUCATION' }}</span>
         </div>
-        <h2 v-html="edu.sectionTitle"></h2>
-        <p class="text-secondary">{{ edu.sectionSubtitle }}</p>
+        <h2 v-html="edu.sectionTitle || 'Academic <span class=\'gradient-text\'>Foundation</span>'"></h2>
+        <p class="text-secondary">{{ edu.sectionSubtitle || 'Computer Science & Engineering at Rajalakshmi Institute of Technology' }}</p>
       </div>
 
-      <!-- Degree -->
-      <div v-for="(deg, i) in edu.degrees" :key="i" class="degree-card glass-card">
-        <div class="degree-icon" aria-hidden="true">🎓</div>
-        <div class="degree-body">
-          <h3>{{ [deg.degree, deg.field_of_study].filter(Boolean).join(', ') }}</h3>
-          <p class="degree-inst">{{ deg.institution }}</p>
-          <p class="degree-meta font-mono">
-            {{ [period(deg), deg.location, deg.grade].filter(Boolean).join(' · ') }}
-          </p>
-          <p v-if="deg.description" class="degree-desc">{{ deg.description }}</p>
-        </div>
-      </div>
-
-      <!-- What I did during college -->
-      <div v-for="group in edu.groups" :key="group.group" class="academic-group">
-        <h3 class="group-title font-mono">{{ group.group }}</h3>
-
-        <div class="academic-grid">
-          <article
-            v-for="item in group.items"
-            :key="item.title"
-            :class="['academic-card', 'glass-card', { 'is-project': item.idea }]"
-          >
-            <div class="card-top">
-              <span class="kind-chip">{{ item.kind }}</span>
-              <span v-if="item.date" class="card-date font-mono">{{ item.date }}</span>
+      <!-- Degree Card -->
+      <div class="education-container">
+        <div v-for="(deg, i) in degrees" :key="i" class="degree-card glass-card">
+          <div class="degree-icon" aria-hidden="true">🎓</div>
+          <div class="degree-body">
+            <h3 class="degree-title">{{ [deg.degree, deg.field_of_study].filter(Boolean).join(' in ') }}</h3>
+            <p class="degree-inst gradient-text">{{ deg.institution }}</p>
+            <div class="degree-meta font-mono">
+              <span class="meta-item">{{ period(deg) }}</span>
+              <span class="meta-sep">·</span>
+              <span class="meta-item">{{ deg.location }}</span>
+              <span v-if="deg.grade" class="meta-sep">·</span>
+              <span v-if="deg.grade" class="grade-badge">{{ deg.grade }}</span>
             </div>
-            <h4 class="card-title">{{ item.title }}</h4>
-            <p class="card-org">{{ item.org }}</p>
-
-            <p v-if="item.description" class="card-desc">{{ item.description }}</p>
-
-            <dl v-if="item.idea" class="story">
-              <div>
-                <dt>The idea</dt>
-                <dd>{{ item.idea }}</dd>
-              </div>
-              <div>
-                <dt>Why it mattered</dt>
-                <dd>{{ item.motive }}</dd>
-              </div>
-              <div>
-                <dt>What I built</dt>
-                <dd>{{ item.built }}</dd>
-              </div>
-            </dl>
-
-            <div v-if="(item.tags && item.tags.length) || item.link" class="card-foot">
-              <div class="card-tags">
-                <span v-for="tag in item.tags || []" :key="tag" class="tag">{{ tag }}</span>
-              </div>
-              <a v-if="item.link" :href="item.link" target="_blank" rel="noopener" class="card-link">
-                Source ↗
-              </a>
-            </div>
-          </article>
+            <p v-if="deg.description" class="degree-desc">{{ deg.description }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -80,10 +40,23 @@ export default {
     edu() {
       return portfolioStore.education;
     },
+    degrees() {
+      return this.edu.degrees || [
+        {
+          degree: "B.E.",
+          field_of_study: "Computer Science and Engineering",
+          institution: "Rajalakshmi Institute of Technology",
+          location: "Chennai, India",
+          start_date: "2020",
+          end_date: "2024",
+          grade: "CGPA: 8.43",
+        },
+      ];
+    },
   },
   methods: {
     period(d) {
-      return [d.start_date, d.end_date].filter(Boolean).join(' – ');
+      return [d.start_date, d.end_date].filter(Boolean).join(" – ");
     },
   },
 };
@@ -103,45 +76,77 @@ export default {
   font-family: var(--font-mono);
 }
 
-/* Degree */
+.education-container {
+  max-width: 840px;
+  margin: 0 auto;
+}
+
 .degree-card {
   display: flex;
-  gap: 1.25rem;
-  align-items: flex-start;
-  padding: var(--spacing-lg);
-  background: rgba(15, 23, 42, 0.5);
+  gap: 1.5rem;
+  align-items: center;
+  padding: var(--spacing-xl);
+  background: rgba(15, 23, 42, 0.45);
   border: 1px solid var(--glass-border);
-  margin-bottom: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.degree-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 .degree-icon {
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   border-radius: var(--radius-md);
-  font-size: 1.7rem;
-  background: var(--color-tag-bg);
-  border: 1px solid var(--color-tag-border);
+  font-size: 2rem;
+  background: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(14, 165, 233, 0.25);
 }
 
-.degree-body h3 {
-  font-size: 1.3rem;
+.degree-body {
+  flex-grow: 1;
+}
+
+.degree-title {
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--color-text-primary);
+  margin-bottom: 0.35rem;
 }
 
 .degree-inst {
-  margin-top: 0.2rem;
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--color-accent-tertiary);
+  margin-bottom: 0.5rem;
 }
 
 .degree-meta {
-  margin-top: 0.4rem;
-  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.85rem;
   color: var(--color-text-muted);
+}
+
+.meta-sep {
+  color: var(--color-text-muted);
+}
+
+.grade-badge {
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-sm);
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+  font-weight: 600;
 }
 
 .degree-desc {
@@ -150,164 +155,11 @@ export default {
   line-height: 1.6;
 }
 
-/* Groups */
-.academic-group + .academic-group {
-  margin-top: var(--spacing-xl);
-}
-
-.group-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-bottom: var(--spacing-md);
-}
-
-.group-title::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.academic-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  gap: var(--spacing-md);
-}
-
-/* Cards */
-.academic-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem;
-  background: rgba(15, 23, 42, 0.45);
-  border: 1px solid var(--glass-border);
-  transition: border-color var(--transition-fast), transform var(--transition-fast);
-}
-
-.academic-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--glass-border-hover);
-}
-
-.card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.8rem;
-}
-
-.kind-chip {
-  padding: 0.18rem 0.6rem;
-  border-radius: 9999px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  color: var(--color-accent-tertiary);
-  background: var(--color-tag-bg);
-  border: 1px solid var(--color-tag-border);
-}
-
-.card-date {
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-}
-
-.card-title {
-  font-size: 1.15rem;
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-
-.card-org {
-  margin-top: 0.2rem;
-  font-size: 0.88rem;
-  color: var(--color-text-muted);
-}
-
-.card-desc {
-  margin-top: 0.8rem;
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: var(--color-text-secondary);
-}
-
-.story {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin: 1rem 0 0;
-}
-
-.story dt {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-accent-primary);
-  margin-bottom: 0.15rem;
-}
-
-.story dd {
-  margin: 0;
-  font-size: 0.93rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-}
-
-.card-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: auto;
-  padding-top: 1.1rem;
-}
-
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.tag {
-  padding: 0.18rem 0.55rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  color: var(--color-accent-tertiary);
-}
-
-.card-link {
-  flex-shrink: 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-accent-tertiary);
-  text-decoration: none;
-}
-
-.card-link:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 860px) {
-  .academic-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 520px) {
+@media (max-width: 640px) {
   .degree-card {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
 }
 </style>

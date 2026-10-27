@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section id="home" class="hero">
     <div class="container">
       <div class="hero-content">
@@ -25,7 +25,7 @@
           <div class="hero-image-container animate-fade-in" style="animation-delay: 0.45s">
             <div class="hero-image-glow"></div>
             <div class="hero-image-wrapper">
-              <img src="../../assets/img/abi.jpg" alt="Abishek VP" class="profile-image" />
+              <img src="../../assets/img/abi.jpg" alt="Abishek V" class="profile-image" />
               <div class="image-overlay"></div>
             </div>
           </div>
@@ -316,3 +316,4 @@ export default {
   }
 }
 </style>
+

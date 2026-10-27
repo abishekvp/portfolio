@@ -23,13 +23,13 @@
     <main class="main-content">
       <HeroSection />
       <AboutSection />
-      <ProjectsSection />
       <ExperienceSection />
-      <MentorshipSection />
+      <ProjectsSection />
+      <SkillsSection />
       <EventsSection />
-      <TestimonialsSection />
-      <TerminalSection />
+      <EducationSection />
       <ContactSection />
+      <TerminalSection />
     </main>
 
     <!-- Floating Global Terminal Modal (summonable via dock or shortcut) -->
@@ -54,9 +54,9 @@ import TerminalSection from "./components/TerminalSection.vue";
 import AboutSection from "./components/AboutSection.vue";
 import ProjectsSection from "./components/ProjectsSection.vue";
 import ExperienceSection from "./components/ExperienceSection.vue";
-import MentorshipSection from "./components/MentorshipSection.vue";
+import SkillsSection from "./components/SkillsSection.vue";
 import EventsSection from "./components/EventsSection.vue";
-import TestimonialsSection from "./components/TestimonialsSection.vue";
+import EducationSection from "./components/EducationSection.vue";
 import ContactSection from "./components/ContactSection.vue";
 import InteractiveTerminal from "./components/InteractiveTerminal.vue";
 import { portfolioService, portfolioStore } from "./services/portfolioService";
@@ -68,14 +68,14 @@ export default {
     NavigationBar,
     SideNavBar,
     HeroSection,
-    TerminalSection,
     AboutSection,
-    ProjectsSection,
     ExperienceSection,
-    MentorshipSection,
+    ProjectsSection,
+    SkillsSection,
     EventsSection,
-    TestimonialsSection,
+    EducationSection,
     ContactSection,
+    TerminalSection,
     InteractiveTerminal,
   },
   data() {
@@ -88,7 +88,7 @@ export default {
       return portfolioStore.hero?.nameFirst || "Abishek";
     },
     brandAccent() {
-      return portfolioStore.hero?.nameAccent || "VP";
+      return portfolioStore.hero?.nameAccent || "V";
     },
   },
   mounted() {

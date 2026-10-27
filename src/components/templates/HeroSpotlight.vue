@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section id="home" class="hero-spotlight">
     <!-- Full Screen Blurred Background -->
     <div class="hero-full-bg">
@@ -29,7 +29,7 @@
 
         <div class="hero-image-focal animate-fade-in" style="animation-delay: 0.5s">
           <div class="focal-image-container">
-            <img src="../../assets/img/abi.jpg" alt="Abishek VP" class="focal-image" />
+            <img src="../../assets/img/abi.jpg" alt="Abishek V" class="focal-image" />
             <div class="focal-glow"></div>
           </div>
           <div class="hero-stats-glass glass-card">
@@ -302,3 +302,4 @@ export default {
   }
 }
 </style>
+

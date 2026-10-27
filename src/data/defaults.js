@@ -2,38 +2,40 @@
 import heroImage from '../assets/img/abi.jpg';
 
 export const hero = {
-  badge: '// SOFTWARE ENGINEER · PRODUCT BUILDER · MENTOR',
+  badge: '// SOFTWARE ENGINEER · BACKEND & SECURITY',
   nameFirst: 'Abishek',
-  nameAccent: 'VP',
-  tagline: 'Architecting enterprise security systems, launching live software products, and mentoring builders.',
+  nameAccent: 'V',
+  tagline: 'I build identity, privileged access and secrets infrastructure for enterprise security software.',
   description:
-    'I engineer privileged access, identity, and secrets infrastructure at Securden, design and operate my own live SaaS and web platforms end to end, and mentor developers and student teams from architecture to launch.',
+    'Software Engineer at Securden since 2024. I built a Self-Service Password Reset platform from scratch, connected it to Active Directory, Microsoft Entra ID and Google Workspace, and shipped secrets plugins for Terraform, Puppet and Chef with 3,900+ public downloads. Open to backend and security engineering roles.',
   highlights: [
-    { icon: '🚀', value: 'Products & Sites', label: 'Designed, launched & operating' },
-    { icon: '🔐', value: 'Enterprise PAM', label: 'Identity, access & CI/CD secrets' },
-    { icon: '🧭', value: 'Mentor & Jury', label: 'Guiding devs & hackathons' },
+    { icon: '🛡️', value: 'Identity & PAM', label: 'Password self-service, JIT access APIs, directory sync' },
+    { icon: '⚙️', value: 'DevOps Secrets Plugins', label: 'Terraform · Puppet · Chef · Jenkins · Ansible' },
+    { icon: '🚀', value: 'Live Side Projects', label: 'Portfolio Manager · Family Finance' },
   ],
-  primaryCta: { label: 'Explore Launched Products & Sites', href: '#projects' },
-  secondaryCta: { label: 'Mentorship & Guided Builds', href: '#mentorship' },
+  primaryCta: { label: 'View Experience', href: '#experience' },
+  secondaryCta: { label: 'Download Resume', href: '/Abishek_V_Software_Engineer.pdf' },
   terminalLabel: 'Launch Terminal CLI',
   portrait: heroImage,
-  portraitTag: 'Software Engineer · Builder · Mentor',
+  portraitTag: 'Software Engineer · Backend & Security',
   floatingBadges: [
-    { icon: '🚀', title: 'Products & Sites', text: 'SaaS · Headless CMS · Client Platforms' },
-    { icon: '🧭', title: 'Mentorship & Advisory', text: 'Team Mentor · Speaker · Jury' },
+    { icon: '🛡️', title: 'Identity & PAM', text: 'SSPR · JIT Access · Entra Delta Sync' },
+    { icon: '⚙️', title: '3,900+ Downloads', text: 'Terraform · Puppet · Chef Plugins' },
   ],
 };
 
-/** Short facts under the About bio (no job-seeker stack lists). */
+/** Stat strip under the About bio (replaces FOCUS / SHIPPING SINCE / BASE) */
 export const aboutFacts = [
-  { label: 'Focus', value: 'Products · Security · Mentorship' },
-  { label: 'Shipping Since', value: '2020 — Present' },
-  { label: 'Base', value: 'Chennai, India' },
+  { label: 'EXPERIENCE', value: '2.5+ yrs full-time · Securden' },
+  { label: 'EDUCATION', value: 'B.E. CSE · RIT · 2024' },
+  { label: 'PLUGIN DOWNLOADS', value: '3,900+' },
+  { label: 'BASE', value: 'Chennai · Open to relocation' },
 ];
 
 export const testimonials = {
-  badge: '// 06. ENDORSEMENTS',
+  badge: '// ENDORSEMENTS',
   sectionTitle: 'What People <span class="gradient-text">Say</span>',
-  sectionSubtitle: 'Colleagues, founders, clients, and mentees I have collaborated with.',
+  sectionSubtitle: 'Colleagues and collaborators.',
   items: [],
+  visible: false,
 };

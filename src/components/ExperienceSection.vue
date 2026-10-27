@@ -28,43 +28,34 @@
           <div class="timeline-content glass-card">
             <div class="timeline-header">
               <div>
-                <div class="job-status-tag">
+                <div class="job-status-tag font-mono">
                   <span class="status-marker">●</span>
-                  <span>{{ exp.roleTag || 'SYSTEMS & LEADERSHIP' }}</span>
+                  <span>{{ exp.roleTag || exp.employmentType || 'EXPERIENCE' }}</span>
                 </div>
-                <h3>{{ exp.title || exp.job_title }}</h3>
-                <h4 class="company gradient-text">
+                <h3 class="job-heading">
+                  {{ exp.title }}
+                  <span class="company-sep">·</span>
                   <a
                     v-if="exp.companyUrl"
                     :href="exp.companyUrl"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="company-link"
+                    class="company-link gradient-text"
                   >
                     {{ exp.company }}
                     <span class="link-icon">↗</span>
                   </a>
-                  <span v-else>{{ exp.company }}</span>
-                </h4>
+                  <span v-else class="company-plain gradient-text">{{ exp.company }}</span>
+                </h3>
               </div>
 
-              <div class="timeline-meta">
-                <div class="flex items-center gap-2 flex-wrap">
-                  <span class="period font-mono">{{ exp.period || formatPeriod(exp.start_date, exp.end_date, exp.is_current) }}</span>
-                </div>
-                <a
-                  v-if="exp.companyUrl"
-                  :href="exp.companyUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="period site-btn"
-                >
-                  Visit Organization ↗
-                </a>
+              <div class="timeline-meta font-mono">
+                <span class="period-badge">{{ exp.period }}</span>
+                <span v-if="exp.location" class="location-badge">· {{ exp.location }}</span>
               </div>
             </div>
 
-            <p class="role-desc">{{ exp.description }}</p>
+            <p class="role-desc font-mono">{{ exp.description }}</p>
 
             <div class="achievements" v-if="exp.achievements && exp.achievements.length">
               <div
@@ -74,6 +65,51 @@
               >
                 <span class="achievement-bullet">▸</span>
                 <span>{{ achievement }}</span>
+              </div>
+            </div>
+
+            <!-- Public Plugins Block (Directly under Securden) -->
+            <div v-if="exp.plugins && exp.plugins.length" class="plugins-block">
+              <div class="plugins-header">
+                <div class="plugins-title-wrap">
+                  <span class="plugins-icon">📦</span>
+                  <h4 class="plugins-title">Public DevOps Plugins</h4>
+                </div>
+                <span class="plugins-total-badge font-mono">3,900+ public downloads</span>
+              </div>
+
+              <div class="plugins-table-wrapper">
+                <table class="plugins-table">
+                  <thead>
+                    <tr>
+                      <th>Plugin</th>
+                      <th>Language</th>
+                      <th>Where to find it</th>
+                      <th class="text-right">Downloads</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="plug in exp.plugins" :key="plug.name">
+                      <td class="font-semibold">{{ plug.name }}</td>
+                      <td>
+                        <span class="lang-tag font-mono">{{ plug.language }}</span>
+                      </td>
+                      <td>
+                        <a
+                          v-if="plug.url"
+                          :href="plug.url"
+                          target="_blank"
+                          rel="noopener"
+                          class="registry-link"
+                        >
+                          {{ plug.platform }} ↗
+                        </a>
+                        <span v-else class="text-muted">{{ plug.platform }}</span>
+                      </td>
+                      <td class="text-right font-mono">{{ plug.downloads }}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -94,16 +130,8 @@ export default {
     },
     allJobs() {
       return this.experienceData.jobs || [];
-    }
+    },
   },
-  methods: {
-    formatPeriod(start, end, current) {
-      if (!start) return '';
-      const s = new Date(start).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-      const e = current ? 'Present' : (end ? new Date(end).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '');
-      return `${s} – ${e}`;
-    }
-  }
 };
 </script>
 
@@ -119,6 +147,10 @@ export default {
 
 .font-mono {
   font-family: var(--font-mono);
+}
+
+.text-right {
+  text-align: right;
 }
 
 .timeline {
@@ -148,165 +180,257 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.9);
-  border: 2px solid var(--color-accent-primary);
-  box-shadow: 0 0 15px var(--color-glow-1);
+  background: rgba(14, 165, 233, 0.15);
+  border: 1px solid var(--color-accent-primary);
   z-index: 2;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
 }
 
 .timeline-line {
+  position: absolute;
+  top: 32px;
+  bottom: -32px;
   width: 2px;
-  flex: 1;
   background: linear-gradient(
-    180deg,
-    var(--color-accent-primary) 0%,
-    rgba(255, 255, 255, 0.05) 100%
+    to bottom,
+    var(--color-accent-primary),
+    rgba(14, 165, 233, 0.1)
   );
-  margin-top: 0.5rem;
 }
 
 .timeline-content {
-  background: rgba(15, 23, 42, 0.45);
-  border: 1px solid var(--glass-border);
   padding: var(--spacing-xl);
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--glass-border);
   transition: all var(--transition-base);
 }
 
 .timeline-content:hover {
   border-color: var(--glass-border-hover);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px var(--color-glow-1);
-}
-
-.job-status-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: #10b981;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.25rem;
-}
-
-.status-marker {
-  font-size: 0.8rem;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 .timeline-header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
-  margin-bottom: var(--spacing-md);
-  gap: var(--spacing-md);
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
 }
 
-.timeline-header h3 {
-  font-size: 1.35rem;
-  color: var(--color-text-primary);
-}
-
-.company {
-  font-size: 1.1rem;
+.job-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  margin-top: 0.2rem;
+  letter-spacing: 0.08em;
+  color: var(--color-accent-tertiary);
+  margin-bottom: 0.35rem;
+}
+
+.status-marker {
+  font-size: 0.6rem;
+}
+
+.job-heading {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.company-sep {
+  color: var(--color-text-muted);
 }
 
 .company-link {
-  color: inherit;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+  transition: color var(--transition-fast);
 }
 
 .company-link:hover {
-  color: var(--color-accent-primary);
+  text-decoration: underline;
 }
 
 .link-icon {
-  font-size: 0.8em;
-  opacity: 0.7;
+  font-size: 0.85em;
 }
 
 .timeline-meta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
-}
-
-.period {
-  font-size: 0.82rem;
-  color: var(--color-text-secondary);
-  padding: 0.35rem 0.8rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  white-space: nowrap;
-}
-
-.site-btn {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  transition: all var(--transition-fast);
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
 }
 
-.site-btn:hover {
-  background: var(--color-accent-primary);
-  color: #ffffff;
+.period-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text-secondary);
 }
 
 .role-desc {
-  margin-bottom: var(--spacing-md);
+  font-size: 0.88rem;
   color: var(--color-accent-tertiary);
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.02em;
 }
 
 .achievements {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
 .achievement {
   display: flex;
   gap: 0.75rem;
-  align-items: start;
   font-size: 0.95rem;
-  color: var(--color-text-secondary);
   line-height: 1.6;
+  color: var(--color-text-secondary);
 }
 
 .achievement-bullet {
-  color: var(--color-accent-primary);
+  color: var(--color-accent-tertiary);
+  font-weight: bold;
+}
+
+/* Public Plugins Block */
+.plugins-block {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+.plugins-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.plugins-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.plugins-icon {
+  font-size: 1.2rem;
+}
+
+.plugins-title {
+  font-size: 1.05rem;
   font-weight: 700;
-  flex-shrink: 0;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.plugins-total-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+}
+
+.plugins-table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.plugins-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  background: rgba(10, 15, 28, 0.55);
+}
+
+.plugins-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.plugins-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--color-text-secondary);
+}
+
+.plugins-table tr:last-child td {
+  border-bottom: none;
+}
+
+.plugins-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.font-semibold {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.lang-tag {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-accent-tertiary);
+}
+
+.registry-link {
+  color: var(--color-accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.registry-link:hover {
+  text-decoration: underline;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
 }
 
 @media (max-width: 768px) {
   .timeline-item {
-    grid-template-columns: 36px 1fr;
-    gap: var(--spacing-md);
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
   }
 
-  .timeline-header {
-    flex-direction: column;
-    align-items: start;
+  .timeline-marker {
+    display: none;
   }
 
-  .timeline-meta {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 0.5rem;
+  .timeline-content {
+    padding: var(--spacing-lg);
   }
 }
 </style>

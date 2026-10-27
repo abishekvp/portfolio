@@ -43,12 +43,18 @@
             <a
               v-if="hero.secondaryCta"
               :href="hero.secondaryCta.href"
-              class="btn btn-glass"
+              class="btn btn-glass resume-cta"
+              download="Abishek_V_Software_Engineer.pdf"
             >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
               <span>{{ hero.secondaryCta.label }}</span>
             </a>
-            <a href="#terminal-section" class="btn btn-glass cli-cta">
-              <span>{{ hero.terminalLabel }}</span>
+            <a href="#terminal-section" class="terminal-text-link font-mono">
+              <span class="prompt-arrow">&gt;</span> {{ hero.terminalLabel }}
             </a>
           </div>
         </div>
@@ -198,10 +204,28 @@ export default {
   gap: 0.5rem;
 }
 
-.cli-cta {
+.terminal-text-link {
   font-family: var(--font-mono);
   font-size: 0.88rem;
+  color: var(--color-accent-tertiary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.6rem;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: all var(--transition-fast);
+}
+
+.terminal-text-link:hover {
+  opacity: 1;
   color: #10b981;
+  transform: translateX(2px);
+}
+
+.prompt-arrow {
+  color: #10b981;
+  font-weight: 700;
 }
 
 /* Visual / Portrait */

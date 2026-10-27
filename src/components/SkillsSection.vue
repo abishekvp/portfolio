@@ -3,49 +3,31 @@
     <div class="container">
       <div class="section-title">
         <div class="code-badge mb-2">
-          <span>{{ skillsData.badge }}</span>
+          <span>{{ skillsData.badge || '// SKILLS' }}</span>
         </div>
-        <h2 v-html="skillsData.sectionTitle"></h2>
-        <p class="text-secondary">{{ skillsData.sectionSubtitle }}</p>
+        <h2 v-html="skillsData.sectionTitle || 'Technical <span class=\'gradient-text\'>Skills</span>'"></h2>
+        <p class="text-secondary">{{ skillsData.sectionSubtitle || 'Core competencies, infrastructure tooling, and languages' }}</p>
       </div>
 
       <div class="skills-grid">
         <div
-          v-for="category in skillsData.categories"
-          :key="category.name"
-          class="skill-category glass-card"
+          v-for="group in skillCategories"
+          :key="group.category || group.name"
+          class="skill-card glass-card"
         >
-          <div class="category-header">
-            <div class="category-title-wrap">
-              <span class="category-icon">{{ category.icon }}</span>
-              <h3>{{ category.name }}</h3>
-            </div>
-            <div class="category-pill">
-              <span>{{ category.skills.length }} Technologies</span>
-            </div>
+          <div class="card-header">
+            <span class="card-icon">{{ group.icon || '⚡' }}</span>
+            <h3 class="card-title">{{ group.category || group.name }}</h3>
           </div>
 
-          <div class="skills-list">
-            <div
-              v-for="skill in category.skills"
-              :key="skill.name"
-              class="skill-item glass"
+          <div class="skills-tags">
+            <span
+              v-for="skill in getSkillNames(group.skills || group.items)"
+              :key="skill"
+              :class="['skill-pill', 'font-mono', (group.category === 'Strong' || group.name === 'Strong') ? 'is-strong' : '']"
             >
-              <div class="skill-main">
-                <h4 class="skill-name">{{ skill.name }}</h4>
-              </div>
-
-              <div class="skill-details" v-if="skill.learned || skill.implemented">
-                <div class="detail-row" v-if="skill.implemented">
-                  <span class="detail-label">Delivered:</span>
-                  <p class="detail-text">{{ skill.implemented }}</p>
-                </div>
-                <div class="detail-row" v-if="skill.learned">
-                  <span class="detail-label">Background:</span>
-                  <p class="detail-text">{{ skill.learned }}</p>
-                </div>
-              </div>
-            </div>
+              {{ skill }}
+            </span>
           </div>
         </div>
       </div>
@@ -55,12 +37,25 @@
 
 <script>
 import { portfolioStore } from "../services/portfolioService";
+import { skillsGroups } from "../data/showcase";
 
 export default {
   name: "SkillsSection",
   computed: {
     skillsData() {
       return portfolioStore.skills;
+    },
+    skillCategories() {
+      if (this.skillsData.categories && this.skillsData.categories.length) {
+        return this.skillsData.categories;
+      }
+      return skillsGroups;
+    },
+  },
+  methods: {
+    getSkillNames(skills) {
+      if (!Array.isArray(skills)) return [];
+      return skills.map((s) => (typeof s === "string" ? s : s.name || ""));
     },
   },
 };
@@ -76,112 +71,79 @@ export default {
   margin-bottom: 0.75rem;
 }
 
+.font-mono {
+  font-family: var(--font-mono);
+}
+
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--spacing-xl);
 }
 
-.skill-category {
+.skill-card {
   display: flex;
   flex-direction: column;
+  padding: var(--spacing-xl);
   background: rgba(15, 23, 42, 0.45);
   border: 1px solid var(--glass-border);
-  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
 }
 
-.category-header {
+.skill-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+.card-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--spacing-lg);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.category-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.card-icon {
+  font-size: 1.4rem;
 }
 
-.category-icon {
-  font-size: 1.6rem;
-}
-
-.category-header h3 {
-  font-size: 1.25rem;
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--color-text-primary);
+  margin: 0;
 }
 
-.category-pill {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-accent-tertiary);
-  padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-}
-
-.skills-list {
+.skills-tags {
   display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
-.skill-item {
-  padding: 0.9rem 1.1rem;
-  border-radius: var(--radius-md);
-  background: rgba(10, 15, 28, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.skill-pill {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text-secondary);
   transition: all var(--transition-fast);
 }
 
-.skill-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: var(--glass-border-hover);
-  transform: translateY(-2px);
-}
-
-.skill-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.skill-name {
-  font-size: 1rem;
-  font-weight: 600;
+.skill-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
   color: var(--color-text-primary);
+  border-color: var(--glass-border-hover);
 }
 
-.skill-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin-top: 0.6rem;
-  padding-top: 0.6rem;
-  border-top: 1px dashed rgba(255, 255, 255, 0.08);
-}
-
-.detail-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-}
-
-.detail-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-}
-
-.detail-text {
-  color: var(--color-text-secondary);
+.skill-pill.is-strong {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.35);
+  color: var(--color-accent-tertiary);
+  font-weight: 600;
 }
 
 @media (max-width: 640px) {
