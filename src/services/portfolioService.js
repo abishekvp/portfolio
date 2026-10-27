@@ -216,6 +216,10 @@ function fromApi(d) {
       ? d.experience.map((e) => {
         const endLabel = e.is_current ? 'Present' : e.end_date || '';
         const period = [e.start_date, endLabel].filter(Boolean).join(' – ');
+        // The admin API has no plugins field, so keep the local plugin table for the same company
+        const localJob = local.experience.jobs.find(
+          (j) => (j.company || '').trim().toLowerCase() === (e.company || '').trim().toLowerCase(),
+        );
         return {
           id: e.id,
           title: e.job_title,
@@ -231,6 +235,7 @@ function fromApi(d) {
           description: e.description || '',
           achievements: Array.isArray(e.achievements) ? e.achievements : [],
           technologies: Array.isArray(e.technologies) ? e.technologies : [],
+          plugins: Array.isArray(e.plugins) && e.plugins.length ? e.plugins : localJob?.plugins || [],
         };
       })
       : local.experience.jobs;
