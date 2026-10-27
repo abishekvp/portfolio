@@ -70,8 +70,8 @@ function fromLocal() {
       location: 'Chennai, India',
       availability: defaults.hero.badge,
       avatar: defaults.hero.portrait,
-      resumeUrl: '/Abishek_V_Software_Engineer.pdf',
-      resumeFilename: 'Abishek_V_Software_Engineer.pdf',
+      resumeUrl: '',
+      resumeFilename: '',
     },
     hero: { ...defaults.hero },
     about: {
@@ -179,8 +179,8 @@ function fromApi(d) {
   const expertiseItems =
     Array.isArray(ca.expertise) && ca.expertise.length
       ? ca.expertise
-          .map((it) => (typeof it === 'string' ? it : [it.title, it.description].filter(Boolean).join(': ')))
-          .filter(Boolean)
+        .map((it) => (typeof it === 'string' ? it : [it.title, it.description].filter(Boolean).join(': ')))
+        .filter(Boolean)
       : local.about.whatIDo.items;
 
   // Projects grouped by category
@@ -214,25 +214,25 @@ function fromApi(d) {
   const jobs =
     Array.isArray(d.experience) && d.experience.length
       ? d.experience.map((e) => {
-          const endLabel = e.is_current ? 'Present' : e.end_date || '';
-          const period = [e.start_date, endLabel].filter(Boolean).join(' – ');
-          return {
-            id: e.id,
-            title: e.job_title,
-            job_title: e.job_title,
-            company: e.company,
-            companyUrl: e.company_url || '',
-            location: e.location || '',
-            period,
-            start_date: e.start_date,
-            end_date: e.end_date,
-            is_current: e.is_current,
-            roleTag: e.role_tag || '',
-            description: e.description || '',
-            achievements: Array.isArray(e.achievements) ? e.achievements : [],
-            technologies: Array.isArray(e.technologies) ? e.technologies : [],
-          };
-        })
+        const endLabel = e.is_current ? 'Present' : e.end_date || '';
+        const period = [e.start_date, endLabel].filter(Boolean).join(' – ');
+        return {
+          id: e.id,
+          title: e.job_title,
+          job_title: e.job_title,
+          company: e.company,
+          companyUrl: e.company_url || '',
+          location: e.location || '',
+          period,
+          start_date: e.start_date,
+          end_date: e.end_date,
+          is_current: e.is_current,
+          roleTag: e.role_tag || '',
+          description: e.description || '',
+          achievements: Array.isArray(e.achievements) ? e.achievements : [],
+          technologies: Array.isArray(e.technologies) ? e.technologies : [],
+        };
+      })
       : local.experience.jobs;
 
   // Mentorship pillars & guided builds
@@ -266,17 +266,17 @@ function fromApi(d) {
   const eventItems =
     Array.isArray(d.events) && d.events.length
       ? d.events.map((ev) => ({
-          id: ev.id,
-          role: ev.role || '',
-          title: ev.title,
-          host: ev.host || '',
-          venue: ev.venue || '',
-          place: ev.place || '',
-          date: ev.date || '',
-          description: ev.description || '',
-          link: ev.link || '',
-          images: [ev.image_url].filter(Boolean),
-        }))
+        id: ev.id,
+        role: ev.role || '',
+        title: ev.title,
+        host: ev.host || '',
+        venue: ev.venue || '',
+        place: ev.place || '',
+        date: ev.date || '',
+        description: ev.description || '',
+        link: ev.link || '',
+        images: [ev.image_url].filter(Boolean),
+      }))
       : local.events.items;
 
   // Contacts
@@ -292,29 +292,29 @@ function fromApi(d) {
   const degrees =
     Array.isArray(d.education) && d.education.length
       ? d.education.map((ed) => ({
-          id: ed.id,
-          degree: ed.degree,
-          field_of_study: ed.field_of_study,
-          institution: ed.institution,
-          location: ed.location,
-          start_date: ed.start_date,
-          end_date: ed.end_date,
-          grade: ed.grade,
-          description: ed.description,
-        }))
+        id: ed.id,
+        degree: ed.degree,
+        field_of_study: ed.field_of_study,
+        institution: ed.institution,
+        location: ed.location,
+        start_date: ed.start_date,
+        end_date: ed.end_date,
+        grade: ed.grade,
+        description: ed.description,
+      }))
       : local.education.degrees;
 
   const skillCategories =
     Array.isArray(d.skill_categories) && d.skill_categories.length
       ? d.skill_categories.map((cat) => ({
-          name: cat.category,
-          icon: cat.icon || '⚡',
-          skills: (cat.items || []).map((sk) => ({
-            name: sk.name,
-            learned: sk.learned || '',
-            implemented: sk.implemented || '',
-          })),
-        }))
+        name: cat.category,
+        icon: cat.icon || '⚡',
+        skills: (cat.items || []).map((sk) => ({
+          name: sk.name,
+          learned: sk.learned || '',
+          implemented: sk.implemented || '',
+        })),
+      }))
       : local.skills.categories;
 
   return {
@@ -346,10 +346,12 @@ function fromApi(d) {
         label: ch.primary_cta_label || local.hero.primaryCta.label,
         href: ch.primary_cta_href || local.hero.primaryCta.href,
       },
-      secondaryCta: {
-        label: ch.secondary_cta_label || local.hero.secondaryCta.label,
-        href: ch.secondary_cta_href || local.hero.secondaryCta.href,
-      },
+      secondaryCta: ch.secondary_cta_label
+        ? {
+            label: ch.secondary_cta_label,
+            href: ch.secondary_cta_href || '#contact',
+          }
+        : (local.hero.secondaryCta || null),
       terminalLabel: ch.terminal_label || local.hero.terminalLabel,
       portrait: p.photo_url || local.hero.portrait,
       portraitTag: ch.portrait_tag || p.location || local.hero.portraitTag,

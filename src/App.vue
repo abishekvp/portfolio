@@ -25,7 +25,6 @@
       <AboutSection />
       <ExperienceSection />
       <ProjectsSection />
-      <SkillsSection />
       <EventsSection />
       <EducationSection />
       <ContactSection />
@@ -54,7 +53,6 @@ import TerminalSection from "./components/TerminalSection.vue";
 import AboutSection from "./components/AboutSection.vue";
 import ProjectsSection from "./components/ProjectsSection.vue";
 import ExperienceSection from "./components/ExperienceSection.vue";
-import SkillsSection from "./components/SkillsSection.vue";
 import EventsSection from "./components/EventsSection.vue";
 import EducationSection from "./components/EducationSection.vue";
 import ContactSection from "./components/ContactSection.vue";
@@ -71,7 +69,6 @@ export default {
     AboutSection,
     ExperienceSection,
     ProjectsSection,
-    SkillsSection,
     EventsSection,
     EducationSection,
     ContactSection,

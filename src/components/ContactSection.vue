@@ -115,7 +115,6 @@
                 class="method-item glass"
                 :target="method.name === 'Email' ? undefined : '_blank'"
                 :rel="method.name === 'Email' ? undefined : 'noopener noreferrer'"
-                :download="method.name === 'Resume' ? 'Abishek_V_Software_Engineer.pdf' : undefined"
               >
                 <div class="method-icon-circle">{{ method.icon }}</div>
                 <div class="method-text">
@@ -171,12 +170,6 @@ export default {
           icon: "💻",
           value: "github.com/abishekvp",
           link: "https://github.com/abishekvp",
-        },
-        {
-          name: "Resume",
-          icon: "📄",
-          value: "Download Resume (PDF)",
-          link: "/Abishek_V_Software_Engineer.pdf",
         },
       ];
     },

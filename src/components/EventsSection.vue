@@ -142,6 +142,9 @@ export default {
 .event-card.has-image {
   grid-column: 1 / -1;
   flex-direction: row;
+  align-items: center;
+  padding: 1.25rem;
+  gap: 1.5rem;
 }
 
 .event-card {
@@ -174,10 +177,14 @@ export default {
 }
 
 .event-card.has-image .event-media {
-  width: 45%;
+  width: 200px;
+  height: 240px;
   flex-shrink: 0;
   aspect-ratio: auto;
-  min-height: 280px;
+  min-height: unset;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
 .event-media img {
@@ -212,7 +219,9 @@ export default {
   cursor: default;
   background: radial-gradient(circle at center, rgba(14, 165, 233, 0.08) 0%, rgba(10, 15, 28, 0.8) 75%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  min-height: 120px;
+  aspect-ratio: auto;
+  height: 110px;
+  min-height: 110px;
 }
 
 .placeholder-icon {
@@ -233,6 +242,11 @@ export default {
   gap: 0.5rem;
   padding: var(--spacing-lg);
   flex-grow: 1;
+}
+
+.event-card.has-image .event-body {
+  padding: 0;
+  justify-content: center;
 }
 
 .event-top {
@@ -346,12 +360,19 @@ export default {
 
   .event-card.has-image {
     flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
   }
 
   .event-card.has-image .event-media {
     width: 100%;
+    max-width: 100%;
+    height: 220px;
     aspect-ratio: 16 / 10;
-    min-height: unset;
+  }
+
+  .event-card.has-image .event-body {
+    padding: 0;
   }
 }
 </style>

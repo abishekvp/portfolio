@@ -117,7 +117,6 @@ export default {
         { label: 'experience', cmd: 'experience' },
         { label: 'plugins', cmd: 'plugins' },
         { label: 'projects', cmd: 'projects' },
-        { label: 'resume', cmd: 'resume' },
         { label: 'contact', cmd: 'contact' },
         { label: 'clear', cmd: 'clear' },
       ],
@@ -204,7 +203,6 @@ export default {
   <div><span class="cmd-name">experience</span> — Professional employment &amp; engineering milestones</div>
   <div><span class="cmd-name">plugins</span> — Public DevOps secrets plugins &amp; 3,900+ downloads</div>
   <div><span class="cmd-name">projects</span> — Live SaaS platforms &amp; academic builds</div>
-  <div><span class="cmd-name">resume</span> — View or download official PDF resume</div>
   <div><span class="cmd-name">contact</span> — Email, LinkedIn, GitHub and contact details</div>
   <div><span class="cmd-name">clear</span> — Clear terminal output</div>
 </div>`;
@@ -252,10 +250,6 @@ export default {
   <p>• <strong class="text-cyan">OASIS records automation</strong> [Academic] — Reads Excel records &amp; populates college OASIS portal. <a href="https://github.com/abishekvp/Web-Automation-Streamlining-OASIS-Web-Portal" target="_blank" class="term-link">GitHub</a></p>
   <p>• <strong class="text-cyan">LegalTech</strong> [Academic] — Digital case-record management for lawyers &amp; advocate discovery. <a href="https://github.com/abishekvp/legaltech" target="_blank" class="term-link">GitHub</a></p>
 </div>`;
-
-        case 'resume':
-          return `
-<p>Download PDF Resume: <a href="/Abishek_V_Software_Engineer.pdf" target="_blank" download="Abishek_V_Software_Engineer.pdf" class="term-link">Abishek_V_Software_Engineer.pdf</a> ↗</p>`;
 
         case 'contact':
           return `

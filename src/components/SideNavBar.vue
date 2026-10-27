@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <aside class="sidenav-wrapper" :class="{ 'is-hovered': isHovered, 'menu-open': isThemeMenuOpen }">
     <!-- Desktop Vertical Side Dock that expands on hover -->
     <nav
@@ -135,11 +135,6 @@ export default {
           id: 'projects',
           label: 'Projects',
           iconPath: 'M12 2 2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5'
-        },
-        {
-          id: 'skills',
-          label: 'Skills',
-          iconPath: 'M16 18l6-6-6-6 M8 6l-6 6 6 6'
         },
         {
           id: 'talks',

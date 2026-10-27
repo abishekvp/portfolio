@@ -30,7 +30,6 @@ const SECTION_CONFIG = {
   'about': { shape: 'scatter', centerX: 0.35 },
   'experience': { shape: 'globe', centerX: 0.65 },
   'projects': { shape: 'bulb', centerX: 0.35 },
-  'skills': { shape: 'network', centerX: 0.65 },
   'education': { shape: 'star', centerX: 0.35 },
   'events': { shape: 'diamond', centerX: 0.65 },
   'testimonials': { shape: 'heart', centerX: 0.35 },

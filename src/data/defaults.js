@@ -14,7 +14,7 @@ export const hero = {
     { icon: '🚀', value: 'Live Side Projects', label: 'Portfolio Manager · Family Finance' },
   ],
   primaryCta: { label: 'View Experience', href: '#experience' },
-  secondaryCta: { label: 'Download Resume', href: '/Abishek_V_Software_Engineer.pdf' },
+  secondaryCta: null,
   terminalLabel: 'Launch Terminal CLI',
   portrait: heroImage,
   portraitTag: 'Software Engineer · Backend & Security',
